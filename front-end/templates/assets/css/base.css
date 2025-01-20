@@ -1,0 +1,102 @@
+* {
+    box-sizing: inherit;
+}
+
+:root {
+    --main-color: #DDAC8A;
+    --text-color: #333;
+    --black-color: #000;
+    --white-color: #fff;
+    --border-color: #bdbdbd;
+}
+
+html {
+    font-family: "Roboto", sans-serif; 
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+}
+
+.grid {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes ModalOverlay {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modal */
+.modal {
+    position: fixed;    
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    z-index: 1000;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal_overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: ModalOverlay ease-in 0.2s;
+}
+
+.modal_body {
+    background-color: var(--white-color);
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 5px;
+    width: 500px;
+    padding-bottom: 36px;
+    animation: fadeIn ease-in 0.3s;
+
+}
+
+.btn {
+    height: 36px;
+    min-width: 140px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+
