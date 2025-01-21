@@ -6,8 +6,9 @@
     <title>Teddy Paradise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <!-- Sử dụng Flask's url_for để trỏ đến các tệp tĩnh -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/base.css') }}">
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+    <link rel="stylesheet" href="../static/assets/css/base.css">
+    <link rel="stylesheet" href="../static/assets/fonts/fontawesome-free-6.6.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
@@ -38,22 +39,27 @@
     
                 <nav class="header_navbar">
                     <a href="#" class="header_navbar-logo">
-                        <img src="./assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
                     </a>
 
                     <ul class="header_navbar-list">
                         <ul class="header_navbar-list">
-                            <li class="header_navbar-item"><a href="{{ url_for('home') }}">Trang chủ</a></li>
-                            <li class="header_navbar-item"><a href="{{ url_for('introduce') }}">Giới thiệu</a></li>
-                            <li class="header_navbar-item"><a href="{{ url_for('products') }}">Sản phẩm</a></li>
-                            <li class="header_navbar-item"><a href="{{ url_for('contact') }}">Liên hệ</a></li>
+                            <li class="header_navbar-item"><a href="/index">Trang chủ</a></li>
+                            <li class="header_navbar-item"><a href="/introduce">Giới thiệu</a></li>
+                            <li class="header_navbar-item"><a href="/products">Sản phẩm</a></li>
+                            <li class="header_navbar-item"><a href="/contact">Liên hệ</a></li>
                             
                         </ul>
                     </ul>
             
                     <div class="header_navbar-btn">
                         <div class="header_navbar-btn-item search-btn">
-                            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button>
+                                <i class="fa-solid fa-magnifying-glass">
+                                <img src="../static/assets/img/search.png" alt="">
+
+                                </i></button>
+                            <i class="fa-solid fa-search"></i>
                         </div>
                         <div class="header_navbar-search">
                             <input type="text" placeholder="Tìm kiếm..." />
@@ -64,12 +70,12 @@
                         </div>
                         <div class="separator"></div>
                         <div class="header_navbar-btn-item cart_shopping">
-                            <a href="./cart.html">
+                            <a href="/cart">
                                 Giỏ hàng
                                 <i style="color: white;" class="fa-solid fa-cart-shopping"></i>
                             </a>
                             <div class="header_navbar-cart-list header_navbar-no-cart">
-                                <img src="./assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
+                                <img src="../static/assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
                             </div>
                         </div>
                     </div>
@@ -84,7 +90,7 @@
                     <h2 class="intro_content-header">Về Teddy Paradise</h2>
                     <div class="content_introduce">
                         <div class="content_logo">
-                            <img src="./assets/img/Gemini_Generated_Image_opu087opu087opu0-fotor-20241009172321.jpg" alt="" class="content_logo-image">
+                            <img src="../static/assets/img/Gemini_Generated_Image_opu087opu087opu0-fotor-20241009172321.jpg" alt="" class="content_logo-image">
                         </div>
             
                         <div class="content_intro-text">
@@ -120,8 +126,8 @@
                         </div>
 
                         <div class="intro_content-container-half">
-                            <img src="./assets/img/DALL·E 2024-10-09 06.44.23 - A cute and playful banner for a stuffed toy (teddy bear) shop. The banner features soft pastel colors such as light pink, baby blue, and soft yellow. .webp" alt="" class="intro_content-container-img">
-                            <img src="./assets/img/20.10_Banner.jpg" alt="" class="intro_content-container-img">
+                            <img src="../static/assets/img/DALL·E 2024-10-09 06.44.23 - A cute and playful banner for a stuffed toy (teddy bear) shop. The banner features soft pastel colors such as light pink, baby blue, and soft yellow. .webp" alt="" class="intro_content-container-img">
+                            <img src="../static/assets/img/20.10_Banner.jpg" alt="" class="intro_content-container-img">
                         </div>
                     </div>
                 </div>
@@ -132,7 +138,7 @@
             <div class="footer">
                 <div class="footer_info">
                     <div class="footer_info-content">
-                        <img src="./assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
                     </div>
 
                     <div class="footer_info-content">
@@ -253,75 +259,8 @@
         </div>
    </div>
    
-   <script>
-        const searchBtn = document.querySelector('.header_navbar-btn-item.search-btn');
-        const searchContainer = document.querySelector('.header_navbar-search');
-
-        // Hiện thanh tìm kiếm khi di chuột vào nút tìm kiếm
-        searchBtn.addEventListener('mouseenter', () => {
-            searchContainer.style.display = 'block'; // Hiển thị thanh tìm kiếm
-        });
-
-        // Ẩn thanh tìm kiếm khi di chuột ra khỏi nút tìm kiếm
-        searchBtn.addEventListener('mouseleave', () => {
-            searchContainer.style.display = 'none'; // Ẩn thanh tìm kiếm
-        });
-
-        // Giữ thanh tìm kiếm hiển thị khi di chuột vào nó
-        searchContainer.addEventListener('mouseenter', () => {
-            searchContainer.style.display = 'block'; // Hiển thị thanh tìm kiếm
-        });
-
-        // Ẩn thanh tìm kiếm khi di chuột ra khỏi thanh tìm kiếm
-        searchContainer.addEventListener('mouseleave', () => {
-            searchContainer.style.display = 'none'; // Ẩn thanh tìm kiếm
-        });
-
-
-    </script>
-
-    <!-- JavaScript Login - Register -->
-    <script>
-        const loginBtn = document.querySelector('.js_login'); 
-        const modal = document.querySelector('.js_modal'); 
-        const modalClose = document.querySelectorAll('.js_modal-close'); 
-        const modalOverlay = document.querySelector('.js_overlay'); 
-        const switchBtns = document.querySelectorAll('.auth_form-switch'); 
-        const loginForm = document.querySelector('.js_login-form'); 
-        const registerForm = document.querySelector('.js_register-form'); 
-
-        function showLoginForm() {
-            modal.classList.add('open');
-            loginForm.style.display = 'block';
-            registerForm.style.display = 'none';
-        }
-        function switchForm() {
-            if (loginForm.style.display === 'block') {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-            } else {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-            }
-        }
-        function handleBackButton() {
-            if (registerForm.style.display === 'block') {
-                // Nếu đang ở form đăng ký, chuyển về form đăng nhập
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'block';
-            } else {
-                // Nếu đang ở form đăng nhập, đóng modal
-                modal.classList.remove('open');
-            }
-        }
-        function closeModal() {
-            modal.classList.remove('open');
-        }
-
-        loginBtn.addEventListener('click', showLoginForm);
-        modalClose.forEach(button => button.addEventListener('click', handleBackButton));
-        modalOverlay.addEventListener('click', closeModal);     
-        switchBtns.forEach(button => button.addEventListener('click', switchForm));
-    </script>
+    <script src="../static/assets/js/search.js"></script>
+    <script>src="../static/assets/js/auth.js"</script>
+    
 </body>
 </html>

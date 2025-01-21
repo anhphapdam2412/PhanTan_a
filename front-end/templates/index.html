@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teddy Paradise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <!-- Sử dụng Flask's url_for để trỏ đến các tệp tĩnh -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/base.css') }}">
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+    <link rel="stylesheet" href="../static/assets/css/base.css">
+    <link rel="stylesheet" href="../static/assets/fonts/fontawesome-free-6.6.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
@@ -38,22 +38,21 @@
     
                 <nav class="header_navbar">
                     <a href="#" class="header_navbar-logo">
-                        <img src="./static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
                     </a>
 
                     <ul class="header_navbar-list">
-                        <li class="header_navbar-item"><a href="{{ url_for('home') }}">Trang chủ</a></li>
-                        <li class="header_navbar-item"><a href="{{ url_for('introduce') }}">Giới thiệu</a></li>
-                        <li class="header_navbar-item"><a href="{{ url_for('products') }}">Sản phẩm</a></li>
-                        <li class="header_navbar-item"><a href="{{ url_for('contact') }}">Liên hệ</a></li>
-                        
+                        <li class="header_navbar-item"><a href="/index">Trang chủ</a></li>
+                        <li class="header_navbar-item"><a href="/introduce">Giới thiệu</a></li>
+                        <li class="header_navbar-item"><a href="/products">Sản phẩm</a></li>
+                        <li class="header_navbar-item"><a href="/contact">Liên hệ</a></li>
                     </ul>
             
                     <div class="header_navbar-btn">
                         <div class="header_navbar-btn-item search-btn">
                             <button>
                                 <i class="fa-solid fa-magnifying-glass">
-                                <img src="./static/assets/img/search.png" alt="">
+                                <img src="../static/assets/img/search.png" alt="">
 
                                 </i></button>
                             <i class="fa-solid fa-search"></i>
@@ -67,12 +66,12 @@
                         </div>
                         <div class="separator"></div>
                         <div class="header_navbar-btn-item cart_shopping">
-                            <a href="./static/cart.html">
+                            <a href="/cart">
                                 Giỏ hàng
                                 <i style="color: white;" class="fa-solid fa-cart-shopping"></i>
                             </a>
                             <div class="header_navbar-cart-list header_navbar-no-cart">
-                                <img src="./static/assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
+                                <img src="../static/assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
                             </div>
                         </div>
                     </div>
@@ -88,7 +87,7 @@
         <div class="grid">
             <div class="content_introduce">
                 <div class="content_logo">
-                    <img src="./static/assets/img/Gemini_Generated_Image_opu087opu087opu0-fotor-20241009172321.jpg" alt="" class="content_logo-image">
+                    <img src="../static/assets/img/Gemini_Generated_Image_opu087opu087opu0-fotor-20241009172321.jpg" alt="" class="content_logo-image">
                 </div>
     
                 <div class="content_intro-text">
@@ -132,7 +131,7 @@
             <div class="footer">
                 <div class="footer_info">
                     <div class="footer_info-content">
-                        <img src="./static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
                     </div>
 
                     <div class="footer_info-content">
@@ -253,7 +252,7 @@
         </div>
    </div>
    
-   <script src="./static/assets/js/search.js"></script>
-   <script src="./static/assets/js/auth.js"></script>
+   <script src="../static/assets/js/search.js"></script>
+   <script src="../static/assets/js/auth.js"></script>
 </body>
 </html>

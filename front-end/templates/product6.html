@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teddy Paradise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+    <link rel="stylesheet" href="../static/assets/css/base.css">
+    <link rel="stylesheet" href="../static/assets/fonts/fontawesome-free-6.6.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
@@ -41,15 +41,20 @@
                     </a>
 
                     <ul class="header_navbar-list">
-                        <li class="header_navbar-item"><a href="./index.html">Trang chủ</a></li>
-                        <li class="header_navbar-item"><a href="./introduce.html">Giới thiệu</a></li>
-                        <li class="header_navbar-item"><a href="./products.html">Sản phẩm</a></li>
-                        <li class="header_navbar-item"><a href="./contact.html">Liên hệ</a></li>
+                        <li class="header_navbar-item"><a href="/index">Trang chủ</a></li>
+                        <li class="header_navbar-item"><a href="/introduce">Giới thiệu</a></li>
+                        <li class="header_navbar-item"><a href="/products">Sản phẩm</a></li>
+                        <li class="header_navbar-item"><a href="/contact">Liên hệ</a></li>
                     </ul>
             
                     <div class="header_navbar-btn">
                         <div class="header_navbar-btn-item search-btn">
-                            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button>
+                                <i class="fa-solid fa-magnifying-glass">
+                                <img src="../static/assets/img/search.png" alt="">
+
+                                </i></button>
+                            <i class="fa-solid fa-search"></i>
                         </div>
                         <div class="header_navbar-search">
                             <input type="text" placeholder="Tìm kiếm..." />
@@ -60,12 +65,12 @@
                         </div>
                         <div class="separator"></div>
                         <div class="header_navbar-btn-item cart_shopping">
-                            <a href="./cart.html">
+                            <a href="/cart">
                                 Giỏ hàng
                                 <i style="color: white;" class="fa-solid fa-cart-shopping"></i>
                             </a>
                             <div class="header_navbar-cart-list header_navbar-no-cart">
-                                <img src="./assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
+                                <img src="../static/assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
                             </div>
                         </div>
                     </div>
@@ -78,24 +83,24 @@
             <div class="product_page">
                 <div class="product_page-introduce">
                     <div class="product_page-intro-item">
-                        <img src="./assets/img/product6.png" alt="" class="product_page-intro-img">
+                        <img src="../static/assets/img/product6.png" alt="" class="product_page-intro-img">
                     </div>
                     <div class="product_page-intro-item">
                         <div class="product_page-intro-subtitle">
-                            <a href="./index.html" class="product_subtitle-trangchu">TRANG CHỦ</a>
+                            <a href="/index" class="product_subtitle-trangchu">TRANG CHỦ</a>
                             <p class="subdivider">/</p>
-                            <a href="./products.html" class="product_page-subtitle-sanpham">SẢN PHẨM</a>
+                            <a href="/products" class="product_page-subtitle-sanpham">SẢN PHẨM</a>
                         </div>
                         <h2 class="product_page-intro-header">Gấu bông chuột lang nước cõng rùa Capypara</h2>
                         <div class="intro_line"></div>
                         <p class="product_intro-price">360.000₫</p>
                         <p class="product_page-intro-text">Gấu bông Capybara cõng chú rùa dễ thương</p>
                         <label for="product_intro-color">Chọn kích thước:</label>
-                        <select name="product_intro-color" class="product_intro-color">
+                        <!-- <select name="product_intro-color" class="product_intro-color">
                             <option value="40">40cm</option>
                             <option value="45">45cm</option>
                             <option value="50">50cm</option>
-                        </select>
+                        </select> -->
                         <div class="product_intro-count">
                             <button class="product_intro-count-btn product_intro-count-minus js_minus">-</button>
                             <input type="number" class="product_intro-count-value js_count_value" value="1" min="1">
@@ -103,7 +108,7 @@
                             <button class="product_btn product_btn-addtocart">THÊM VÀO GIỎ HÀNG</button>
                         </div>
                         <button class="product_btn product_intro-quickbuy">MUA NGAY</button>
-                        <div class="product_intro-share">
+                        <!-- <div class="product_intro-share">
                             <p class="product_intro-share-header">Chia sẻ cho bạn bè</p>
                             <div class="product_intro-share-link">
                                 <a title="Chia sẻ qua Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/qmin1210/" class="product_intro-share-icon" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
@@ -111,7 +116,7 @@
                                 <a title="Chia sẻ qua WhatsApp" href="https://wa.me/?text=Check%20this%20out!%20https://www.facebook.com/qmin1210/" class="product_intro-share-icon" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
                                 <a title="Chia sẻ qua LinkedIn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.facebook.com/qmin1210/" class="product_intro-share-icon" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -146,7 +151,7 @@
                     </div>
 
                     <div class="product_page-description-item">
-                        <p>#TEDDY #TEDDYPARADISE #SHOP #PTIT #OOP #NGOTIENDUC</p>
+                        <p>#TEDDY #TEDDYPARADISE #SHOP</p>
                     </div>
                 </div>
             </div>
@@ -156,7 +161,7 @@
             <div class="footer">
                 <div class="footer_info">
                     <div class="footer_info-content">
-                        <img src="./assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
                     </div>
 
                     <div class="footer_info-content">
@@ -277,8 +282,8 @@
         </div>
    </div>
    
-   <script src="./assets/js/search.js"></script>
-   <script src="./assets/js/auth.js"></script>
-   <script src="./assets/js/counter.js"></script>
+   <script src="../static/assets/js/search.js"></script>
+   <script src="../static/assets/js/auth.js"></script>
+   <script src="../static/assets/js/counter.js"></script>
 </body>
 </html>

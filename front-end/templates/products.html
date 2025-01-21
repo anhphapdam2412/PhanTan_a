@@ -6,8 +6,9 @@
     <title>Teddy Paradise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <!-- Sử dụng url_for để đảm bảo đường dẫn tĩnh đúng -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/base.css') }}">
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+    <link rel="stylesheet" href="../static/assets/css/base.css">
+    <link rel="stylesheet" href="../static/assets/fonts/fontawesome-free-6.6.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
@@ -38,18 +39,22 @@
     
                 <nav class="header_navbar">
                     <a href="#" class="header_navbar-logo">
-                        <img src="./static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
                     </a>
                     <ul class="header_navbar-list">
-                        <li class="header_navbar-item"><a href="{{ url_for('home') }}">Trang chủ</a></li>
-                        <li class="header_navbar-item"><a href="{{ url_for('introduce') }}">Giới thiệu</a></li>
-                        <li class="header_navbar-item"><a href="{{ url_for('products') }}">Sản phẩm</a></li>
-                        <li class="header_navbar-item"><a href="{{ url_for('contact') }}">Liên hệ</a></li>
-                        
+                        <li class="header_navbar-item"><a href="/index">Trang chủ</a></li>
+                        <li class="header_navbar-item"><a href="/introduce">Giới thiệu</a></li>
+                        <li class="header_navbar-item"><a href="/products">Sản phẩm</a></li>
+                        <li class="header_navbar-item"><a href="/contact">Liên hệ</a></li>
                     </ul>
                     <div class="header_navbar-btn">
                         <div class="header_navbar-btn-item search-btn">
-                            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button>
+                                <i class="fa-solid fa-magnifying-glass">
+                                <img src="../static/assets/img/search.png" alt="">
+
+                                </i></button>
+                            <i class="fa-solid fa-search"></i>
                         </div>
                         <div class="header_navbar-search">
                             <input type="text" placeholder="Tìm kiếm..." />
@@ -60,12 +65,12 @@
                         </div>
                         <div class="separator"></div>
                         <div class="header_navbar-btn-item cart_shopping">
-                            <a href="./cart.html">
+                            <a href="/cart">
                                 Giỏ hàng
                                 <i style="color: white;" class="fa-solid fa-cart-shopping"></i>
                             </a>
                             <div class="header_navbar-cart-list header_navbar-no-cart">
-                                <img src="./static/assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
+                                <img src="../static/assets/img/empty-cart.png" alt="" class="header_navbar-no-cart-img">
                             </div>
                         </div>
                     </div>
@@ -77,117 +82,117 @@
         <div class="grid">
             <div class="product_container">
                 <div class="product_title">
-                    <a href="./index.html" class="product_title-text product_title-trangchu">TRANG CHỦ</a>
+                    <a href="/index" class="product_title-text product_title-trangchu">TRANG CHỦ</a>
                     <div class="product_title-text divider">/</div>
                     <p class="product_title-text product_title-sanpham">SẢN PHẨM</p>
                 </div>
 
                 <div class="product_list">
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product1.html">
-                            <img src="./static/assets/img/product1.png" alt="">
+                        <a class="product_list-item-image" href="/products/1">
+                            <img src="../static/assets/img/product1.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product1.html"><p class="product_list-title">Gấu nhồi bông cho bé ôm ngủ đáng yêu</p></a>
+                        <a href="/products/1"><p class="product_list-title">Gấu nhồi bông cho bé ôm ngủ đáng yêu</p></a>
                         <p class="product_list-price">270.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product2.html">
-                            <img src="./static/assets/img/product2.png" alt="">
+                        <a class="product_list-item-image" href="/products/2">
+                            <img src="../static/assets/img/product2.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product2.html"><p class="product_list-title">Gấu bông Shiba đầu to thân nhỏ</p></a>
+                        <a href="/products/2"><p class="product_list-title">Gấu bông Shiba đầu to thân nhỏ</p></a>
                         <p class="product_list-price">320.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product3.html">
-                            <img src="./static/assets/img/product3.png" alt="">
+                        <a class="product_list-item-image" href="/products/3">
+                            <img src="../static/assets/img/product3.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product3.html"><p class="product_list-title">Kuromi ôm búp bê</p></a>
+                        <a href="/products/3"><p class="product_list-title">Kuromi ôm búp bê</p></a>
                         <p class="product_list-price">280.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product4.html">
-                            <img src="./static/assets/img/product4.png" alt="">
+                        <a class="product_list-item-image" href="/products/4">
+                            <img src="../static/assets/img/product4.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product4.html"><p class="product_list-title">Gà vô tri Kichi Hihi</p></a>
+                        <a href="/products/4"><p class="product_list-title">Gà vô tri Kichi Hihi</p></a>
                         <p class="product_list-price">380.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product5.html">
-                            <img src="./static/assets/img/product5.png" alt="">
+                        <a class="product_list-item-image" href="/products/5">
+                            <img src="../static/assets/img/product5.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product5.html"><p class="product_list-title">Gấu bông Hải Ly Loopy Cosplay</p></a>
+                        <a href="/products/5"><p class="product_list-title">Gấu bông Hải Ly Loopy Cosplay</p></a>
                         <p class="product_list-price">320.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product6.html">
-                            <img src="./static/assets/img/product6.png" alt="">
+                        <a class="product_list-item-image" href="/products/6">
+                            <img src="../static/assets/img/product6.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product6.html"><p class="product_list-title">Gấu bông chuột lang nước cõng rùa Capypara</p></a>
+                        <a href="/products/6"><p class="product_list-title">Gấu bông chuột lang nước cõng rùa Capypara</p></a>
                         <p class="product_list-price">360.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product7.html">
-                            <img src="./static/assets/img/product7.png" alt="">
+                        <a class="product_list-item-image" href="/products/7">
+                            <img src="../static/assets/img/product7.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product7.html"><p class="product_list-title">Gấu trúc trong ống tre Tori Panda</p></a>
+                        <a href="/products/7"><p class="product_list-title">Gấu trúc trong ống tre Tori Panda</p></a>
                         <p class="product_list-price">280.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product8.html">
-                            <img src="./static/assets/img/product8.png" alt="">
+                        <a class="product_list-item-image" href="/products/8">
+                            <img src="../static/assets/img/product8.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product8.html"><p class="product_list-title">Cặp đôi heo hồng Wedding Pig</p></a>
+                        <a href="/products/8"><p class="product_list-title">Cặp đôi heo hồng Wedding Pig</p></a>
                         <p class="product_list-price">260.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product9.html">
-                            <img src="./static/assets/img/product9.png" alt="">
+                        <a class="product_list-item-image" href="/products/9">
+                            <img src="../static/assets/img/product9.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product9.html"><p class="product_list-title">Bé cừu béo Shaun The Sheep</p></a>
+                        <a href="/products/9"><p class="product_list-title">Bé cừu béo Shaun The Sheep</p></a>
                         <p class="product_list-price">190.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product10.html">
-                            <img src="./static/assets/img/product10.png" alt="">
+                        <a class="product_list-item-image" href="/products/10">
+                            <img src="../static/assets/img/product10.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product10.html"><p class="product_list-title">Mèo Lucifer mặt quạo</p></a>
+                        <a href="/products/10"><p class="product_list-title">Mèo Lucifer mặt quạo</p></a>
                         <p class="product_list-price">560.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product11.html">
-                            <img src="./static/assets/img/product11.png" alt="">
+                        <a class="product_list-item-image" href="/products/11">
+                            <img src="../static/assets/img/product11.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product11.html"><p class="product_list-title">Khủng long Nisa baby</p></a>
+                        <a href="/products/11"><p class="product_list-title">Khủng long Nisa baby</p></a>
                         <p class="product_list-price">220.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="product_list-item">
-                        <a class="product_list-item-image" href="./product12.html">
-                            <img src="./static/assets/img/product12.png" alt="">
+                        <a class="product_list-item-image" href="/products/12">
+                            <img src="../static/assets/img/product12.png" alt="">
                             <div class="product_list-quickview">XEM NHANH</div>
                         </a>
-                        <a href="./product12.html"><p class="product_list-title">Gấu bông ủ tay kèm chăn Lotso cao cấp 3 in 1</p></a>
+                        <a href="/products/12"><p class="product_list-title">Gấu bông ủ tay kèm chăn Lotso cao cấp 3 in 1</p></a>
                         <p class="product_list-price">430.000₫</p>
                         <button class="product_list-addtocart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
@@ -199,7 +204,7 @@
             <div class="footer">
                 <div class="footer_info">
                     <div class="footer_info-content">
-                        <img src="./static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9-fotor-20241009183056-removebg-preview.png" alt="" class="footer_info-logo">
                     </div>
 
                     <div class="footer_info-content">
@@ -207,7 +212,7 @@
                         <div class="footer_info-line"></div>
                         <p class="footer_info-text">Số hotline được trực trong khung giờ từ 9h-17h mỗi T2 – T7 hàng tuần</p>
                         <p class="footer_info-text">Đường dây nóng: +84 904 091 648</p>
-                        <p class="footer_info-text">96A Đường Trần Phú - Phường Mộ Lao - Hà Đông - Hà Nội</p>
+                        <p class="footer_info-text">P. Nguyễn Trác, Yên Nghĩa, Hà Đông, Hà Nội</p>
                     </div>
 
                     <div class="footer_info-content">
@@ -320,8 +325,8 @@
         </div>
    </div>
    
-   <script src="./static/assets/js/search.js"></script>
-   <script src="./static/assets/js/auth.js"></script>
+   <script src="../static/assets/js/search.js"></script>
+   <script src="../static/assets/js/auth.js"></script>
    
 </body>
 </html>
