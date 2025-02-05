@@ -45,8 +45,10 @@
 .search-btn button i img{
     padding: 0px;
     margin: 0px;
-    height: 15px;
-    width: 15px;
+    height: 10px;
+    width: 10px;
+    align-items: center;
+    justify-items: center;
 }
 
 .tooltip:hover .subintro{
@@ -311,19 +313,12 @@
     background-color: #b18a6e;
 }
 
-.content_banner {
-    margin: 150px 30px 30px;
-    padding-top: 55%;
-    /* background-image: url("../static/assets/img/DALL.png"); */
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-}
-
 .content_banner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    margin: 150px 30px 30px;
+
 }
 
 .content_introduce {
