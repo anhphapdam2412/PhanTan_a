@@ -108,9 +108,6 @@ def products():
 @app.route('/health')
 def health():
     return jsonify({"status": "healthy"}), 200
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
 
 @app.route('/products/<int:product_id>')
 def product(product_id):
@@ -230,4 +227,4 @@ def submit_payment():
     return jsonify(success=True, message="Thanh toán thành công!", total_price=total_price_str)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001)
