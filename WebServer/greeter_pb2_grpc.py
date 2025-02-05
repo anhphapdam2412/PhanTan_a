@@ -39,12 +39,34 @@ class GreeterStub(object):
                 request_serializer=greeter__pb2.EmptyRequest.SerializeToString,
                 response_deserializer=greeter__pb2.HtmlResponse.FromString,
                 _registered_method=True)
+        self.Authenticate = channel.unary_unary(
+                '/greeter.Greeter/Authenticate',
+                request_serializer=greeter__pb2.AuthRequest.SerializeToString,
+                response_deserializer=greeter__pb2.AuthResponse.FromString,
+                _registered_method=True)
+        self.NotifyLoginSuccess = channel.unary_unary(
+                '/greeter.Greeter/NotifyLoginSuccess',
+                request_serializer=greeter__pb2.LoginSuccessRequest.SerializeToString,
+                response_deserializer=greeter__pb2.Response.FromString,
+                _registered_method=True)
 
 
 class GreeterServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetIndexPage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Authenticate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def NotifyLoginSuccess(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -57,6 +79,16 @@ def add_GreeterServicer_to_server(servicer, server):
                     servicer.GetIndexPage,
                     request_deserializer=greeter__pb2.EmptyRequest.FromString,
                     response_serializer=greeter__pb2.HtmlResponse.SerializeToString,
+            ),
+            'Authenticate': grpc.unary_unary_rpc_method_handler(
+                    servicer.Authenticate,
+                    request_deserializer=greeter__pb2.AuthRequest.FromString,
+                    response_serializer=greeter__pb2.AuthResponse.SerializeToString,
+            ),
+            'NotifyLoginSuccess': grpc.unary_unary_rpc_method_handler(
+                    servicer.NotifyLoginSuccess,
+                    request_deserializer=greeter__pb2.LoginSuccessRequest.FromString,
+                    response_serializer=greeter__pb2.Response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -86,6 +118,60 @@ class Greeter(object):
             '/greeter.Greeter/GetIndexPage',
             greeter__pb2.EmptyRequest.SerializeToString,
             greeter__pb2.HtmlResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Authenticate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/Authenticate',
+            greeter__pb2.AuthRequest.SerializeToString,
+            greeter__pb2.AuthResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def NotifyLoginSuccess(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/NotifyLoginSuccess',
+            greeter__pb2.LoginSuccessRequest.SerializeToString,
+            greeter__pb2.Response.FromString,
             options,
             channel_credentials,
             insecure,
