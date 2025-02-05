@@ -38,11 +38,12 @@
                     </ul>
                 </div>
                 <nav class="header_navbar">
-                    <a href="/" class="header_navbar-logo">
-                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
+                    <a href="#" class="header_navbar-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt=""
+                            title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
                     </a>
                     <ul class="header_navbar-list">
-                        <li class="header_navbar-item"><a href="/">Trang chủ</a></li>
+                        <li class="header_navbar-item"><a href="/index">Trang chủ</a></li>
                         <li class="header_navbar-item"><a href="/introduce">Giới thiệu</a></li>
                         <li class="header_navbar-item"><a href="/products">Sản phẩm</a></li>
                         <li class="header_navbar-item"><a href="/contact">Liên hệ</a></li>
@@ -83,42 +84,41 @@
                 <a href="/payment" class="cart_header-payment">CHI TIẾT THANH TOÁN</a>
                 <i class="cart_header-arrow fa-solid fa-chevron-right"></i>
                 <p class="cart_header-success">HOÀN THÀNH ĐƠN HÀNG</p>
+                <i class="cart_header-arrow fa-solid fa-chevron-right"></i>
             </div>
+            <div class="payment">
+                <form id="payment-form">
+                    <h3>Thông Tin Giao Hàng</h3>
+                    <label for="name">Họ và tên:</label>
+                    <input type="text" id="name" placeholder="Nhập họ và tên" required>
 
-            <div class="cart_container">
-                {% if cart %}
-                <ul class="cart_list">
-                    {% for item in cart %}
-                    <li class="cart_item">
-                        <img src="{{ item.image_url }}" alt="{{ item.name }}" class="cart_item-image">
-                        <div class="cart_item-info">
-                            <span class="cart_item-name">{{ item.name }}</span>
-                            <span class="cart_item-price">Giá: {{ "{:,.0f}".format(item.price) }} VND</span>
-                            <div class="cart_item-quantity">
-                                <button class="quantity-decrease" data-id="{{ item.id }}">&#8722;</button>
-                                <span class="cart_item-quantity-value">{{ item.quantity }}</span>
-                                <button class="quantity-increase" data-id="{{ item.id }}">&#43;</button>
-                            </div>
-                        </div>
-                        <button class="cart_item-remove" data-id="{{ item.id }}">&#10006;</button>
-                    </li>
-                    {% endfor %}
-                </ul>
+                    <label for="phone">Số điện thoại:</label>
+                    <input type="tel" id="phone" placeholder="Nhập số điện thoại" required>
 
-                <div class="cart_total">
-                    <strong>Tổng giá trị đơn hàng:</strong>
-                    <span>{{ "{:,.0f}".format(total_price) }} VND</span>
-                </div>
+                    <label for="address">Địa chỉ giao hàng:</label>
+                    <input type="text" id="address" placeholder="Nhập địa chỉ" required>
 
-                <div class="cart_actions">
-                    <a href="/products" class="btn btn-secondary">Tiếp tục mua sắm</a>
-                    <a href="/payment" class="btn btn-primary">Thanh toán</a>
-                </div>
-                {% else %}
-                <p class="cart_empty">Giỏ hàng trống. <a href="/products">Tiếp tục mua sắm</a></p>
-                {% endif %}
+                    <h3>Phương Thức Thanh Toán</h3>
+                    <label><input type="radio" name="payment_method" value="cod" checked> Thanh toán khi nhận hàng
+                        (COD)</label><br>
+                    <label><input type="radio" name="payment_method" value="bank"> Chuyển khoản ngân hàng</label><br>
+                    <label><input type="radio" name="payment_method" value="paypal"> Thanh toán qua PayPal</label><br>
+
+                    <h3>Tóm Tắt Đơn Hàng</h3>
+                    <ul id="cart-summary">
+                        {% for item in cart_data %}
+                        <li>
+                            <strong>{{ item.name }}</strong> x{{ item.quantity }} -
+                            {{ "{:,.0f}".format(item.price * item.quantity) }} VND
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <p><strong>Tổng tiền: </strong><span id="total-price">{{ "{:,.0f}".format(total_price) }}</span> VND
+                    </p>
+
+                    <button type="submit">Thanh Toán</button>
+                </form>
             </div>
-
             <div class="grid">
                 <div class="footer">
                     <div class="footer_info">
@@ -238,6 +238,11 @@
         <script src="../static/assets/js/auth.js"></script>
         <script src="../static/assets/js/order.js"></script>
         <script src="../static/assets/js/menu.js"></script>
+        <script src="../static/assets/js/payment.js"></script>
+        <script>
+            var cartData = {{ cart_data | tojson | safe }};
+        </script>
+
 </body>
 
 </html>
