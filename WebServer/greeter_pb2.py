@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgreeter.proto\x12\x07greeter\"\x0e\n\x0c\x45mptyRequest\"$\n\x0cHtmlResponse\x12\x14\n\x0chtml_content\x18\x01 \x01(\t2G\n\x07Greeter\x12<\n\x0cGetIndexPage\x12\x15.greeter.EmptyRequest\x1a\x15.greeter.HtmlResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgreeter.proto\x12\x07greeter\"\x0e\n\x0c\x45mptyRequest\"$\n\x0cHtmlResponse\x12\x14\n\x0chtml_content\x18\x01 \x01(\t\"1\n\x0b\x41uthRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1f\n\x0c\x41uthResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\'\n\x13LoginSuccessRequest\x12\x10\n\x08username\x18\x01 \x01(\t\",\n\x08Response\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t2\xcb\x01\n\x07Greeter\x12<\n\x0cGetIndexPage\x12\x15.greeter.EmptyRequest\x1a\x15.greeter.HtmlResponse\x12;\n\x0c\x41uthenticate\x12\x14.greeter.AuthRequest\x1a\x15.greeter.AuthResponse\x12\x45\n\x12NotifyLoginSuccess\x12\x1c.greeter.LoginSuccessRequest\x1a\x11.greeter.Responseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,6 +35,14 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_EMPTYREQUEST']._serialized_end=40
   _globals['_HTMLRESPONSE']._serialized_start=42
   _globals['_HTMLRESPONSE']._serialized_end=78
-  _globals['_GREETER']._serialized_start=80
-  _globals['_GREETER']._serialized_end=151
+  _globals['_AUTHREQUEST']._serialized_start=80
+  _globals['_AUTHREQUEST']._serialized_end=129
+  _globals['_AUTHRESPONSE']._serialized_start=131
+  _globals['_AUTHRESPONSE']._serialized_end=162
+  _globals['_LOGINSUCCESSREQUEST']._serialized_start=164
+  _globals['_LOGINSUCCESSREQUEST']._serialized_end=203
+  _globals['_RESPONSE']._serialized_start=205
+  _globals['_RESPONSE']._serialized_end=249
+  _globals['_GREETER']._serialized_start=252
+  _globals['_GREETER']._serialized_end=455
 # @@protoc_insertion_point(module_scope)

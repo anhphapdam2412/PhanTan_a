@@ -6,16 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teddy Paradise</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <!-- Sử dụng Flask's url_for để trỏ đến các tệp tĩnh -->
-    <link rel="stylesheet" href="../static/assets/css/style.css">
-    <link rel="stylesheet" href="../static/assets/css/base.css">
-    <link rel="stylesheet" href="../static/assets/fonts/fontawesome-free-6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/fonts/fontawesome-free-6.6.0/css/all.min.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
-
 </head>
-
+    
 <body>
     <div class="app">
         <div class="grid">
@@ -40,14 +38,13 @@
                 </div>
 
                 <nav class="header_navbar">
-                    <a href="#" class="header_navbar-logo">
-                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt=""
-                            title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
+                    <a href="/" class="header_navbar-logo">
+                        <img src="../static/assets/img/Gemini_Generated_Image_krh9ixkrh9ixkrh9.jpg" alt="" title="Teddy Paradise - teddyparadise.com" class="header_navbar-logo">
                     </a>
 
                     <ul class="header_navbar-list">
                         <ul class="header_navbar-list">
-                            <li class="header_navbar-item"><a href="/index">Trang chủ</a></li>
+                            <li class="header_navbar-item"><a href="/">Trang chủ</a></li>
                             <li class="header_navbar-item"><a href="/introduce">Giới thiệu</a></li>
                             <li class="header_navbar-item"><a href="/products">Sản phẩm</a></li>
                             <li class="header_navbar-item"><a href="/contact">Liên hệ</a></li>

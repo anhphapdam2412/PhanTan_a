@@ -4,10 +4,30 @@ package greeter;
 
 service Greeter {
   rpc GetIndexPage (EmptyRequest) returns (HtmlResponse);
+  rpc Authenticate (AuthRequest) returns (AuthResponse);
+  rpc NotifyLoginSuccess (LoginSuccessRequest) returns (Response);
 }
 
 message EmptyRequest {}
 
 message HtmlResponse {
   string html_content = 1;
+}
+
+message AuthRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  bool success = 1;
+}
+
+message LoginSuccessRequest {
+    string username = 1;
+}
+
+message Response {
+    bool success = 1;
+    string message = 2;
 }
