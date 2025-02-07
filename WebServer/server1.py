@@ -7,7 +7,7 @@ import sys
 import time
 
 # Biến lưu trữ tài khoản trong RAM
-user_db = {'2@gmail.com': '1'}
+user_db = {'1@gmail.com': '1'}
 db_lock = threading.Lock()
 
 # Danh sách server và cổng
@@ -86,7 +86,7 @@ def serve(port):
 
 
 if __name__ == "__main__":
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 50052
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 50051
     if port not in server_ports:
         print("❌ Cổng không hợp lệ. Vui lòng chọn từ 50051 đến 50053.")
         sys.exit(1)

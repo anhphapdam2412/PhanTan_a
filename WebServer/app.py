@@ -9,7 +9,7 @@ import re
 app = Flask(__name__)
 
 VALID_PAYMENT_METHODS = {"cod", "bank", "paypal"}
-GRPC_SERVER_LIST = ['localhost:50051', 'localhost:50052']
+GRPC_SERVER_LIST = ['localhost:50051', 'localhost:50052', 'localhost:50053']
 
 # Cấu hình session
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -41,7 +41,7 @@ def authenticate_with_grpc(username, password):
     try:
         channel = grpc_channels[current_server]
         stub = greeter_pb2_grpc.GreeterStub(channel)
-        response = stub.Authenticate(greeter_pb2.AuthRequest(username=username, password=password), timeout=5)
+        response = stub.Authenticate(greeter_pb2.AuthRequest(username=username, password=password), timeout=0.001)
         if response.success:
             print(f"✅ Đã xác thực thành công với {current_server}")
             return True
@@ -60,7 +60,7 @@ def get_server_code(retries=0):
     try:
         with grpc.insecure_channel(current_server) as channel:
             stub = greeter_pb2_grpc.GreeterStub(channel)
-            response = stub.GetIndexPage(greeter_pb2.EmptyRequest(), timeout=5)
+            response = stub.GetIndexPage(greeter_pb2.EmptyRequest(), timeout=0.001)
             print(f"✅ Đã kết nối với {current_server}")
             return response.html_content
     except grpc.RpcError as e:
@@ -70,19 +70,7 @@ def get_server_code(retries=0):
             return get_server_code(retries + 1)
         else:
             return "<h1>500 - Không thể kết nối với backend!</h1>"
-def notify_successful_login(username, password):
-    """Đồng bộ tài khoản với server khác"""
-    for server in GRPC_SERVER_LIST:
-        if server != current_server:
-            try:
-                with grpc.insecure_channel(server) as channel:
-                    stub = greeter_pb2_grpc.GreeterStub(channel)
-                    request = greeter_pb2.SyncRequest(username=username, password=password)
-                    response = stub.SyncUserData(request, timeout=5)
-                    if response.success:
-                        print(f"✅ Đồng bộ tài khoản {username} sang {server} thành công")
-            except grpc.RpcError as e:
-                print(f"❌ Không thể đồng bộ với {server}: {e}")
+
 
 def get_cart():
     """Lấy giỏ hàng từ session"""
@@ -103,8 +91,6 @@ def login():
 
     if authenticate_with_grpc(username, password):
         session['username'] = username
-        # Đồng bộ tài khoản với server còn lại
-        notify_successful_login(username, password)
         return jsonify({"success": True, "login_success": True})
     else:
         return jsonify({"success": False, "login_success": False}), 401
