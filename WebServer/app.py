@@ -1,4 +1,5 @@
 from flask import Flask, render_template, abort, request, jsonify, session
+from flask_session import Session
 import grpc
 import greeter_pb2
 import greeter_pb2_grpc
@@ -6,20 +7,25 @@ import random
 import re
 
 app = Flask(__name__)
- 
-VALID_PAYMENT_METHODS = {"cod", "bank", "paypal"}  # Các phương thức hợp lệ
-GRPC_SERVER_LIST = ['localhost:50051']
-app.secret_key = 'your_secret_key_here'  # Thay bằng key an toàn của bạn
+
+VALID_PAYMENT_METHODS = {"cod", "bank", "paypal"}
+GRPC_SERVER_LIST = ['localhost:50052']
+
+# Cấu hình session
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 current_server = None
+
+MAX_RETRIES = 3
 
 # Kết nối với server gRPC để thực hiện xác thực và lấy HTML
 def authenticate_with_grpc(username, password):
     global current_server
-    
-    # Nếu không có server hiện tại, chọn một server ngẫu nhiên để kết nối
+
     if current_server is None:
         current_server = random.choice(GRPC_SERVER_LIST)
-    
+
     try:
         with grpc.insecure_channel(current_server) as channel:
             stub = greeter_pb2_grpc.GreeterStub(channel)
@@ -29,15 +35,15 @@ def authenticate_with_grpc(username, password):
                 return True
     except grpc.RpcError as e:
         print(f"❌ Lỗi kết nối tới {current_server}: {e}")
-        current_server = None  # Nếu gặp lỗi, đặt lại và thử lại từ đầu
-        return authenticate_with_grpc(username, password)  # Thử lại từ đầu
+        current_server = None  # Nếu gặp lỗi, đặt lại server
+        return False
 
-def get_server_code():
+def get_server_code(retries=0):
     global current_server
-    
+
     if current_server is None:
-        current_server = random.choice(GRPC_SERVER_LIST)  # Chọn một server ngẫu nhiên nếu không có server
-    
+        current_server = random.choice(GRPC_SERVER_LIST)
+
     try:
         with grpc.insecure_channel(current_server) as channel:
             stub = greeter_pb2_grpc.GreeterStub(channel)
@@ -46,8 +52,12 @@ def get_server_code():
             return response.html_content
     except grpc.RpcError as e:
         print(f"❌ Lỗi kết nối tới {current_server}: {e}")
-        current_server = None  # Nếu gặp lỗi, đặt lại và thử lại từ đầu
-        return get_server_code()  # Thử lại từ đầu
+        current_server = None
+        if retries < MAX_RETRIES:
+            return get_server_code(retries + 1)
+        else:
+            return "<h1>500 - Không thể kết nối với backend!</h1>"
+
 
 def get_cart():
     """Lấy giỏ hàng từ session"""
@@ -60,17 +70,33 @@ def update_cart(cart):
     session['cart'] = cart
     session.modified = True
 
+def clear_cart(username):
+    try:
+        with grpc.insecure_channel(current_server) as channel:
+            stub = greeter_pb2_grpc.GreeterStub(channel)
+            response = stub.GetCart(greeter_pb2.ClearCartRequest(username=username))
+            return response.success
+    except grpc.RpcError:
+        return False
+
+
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
     username = data.get("username")
     password = data.get("password")
 
-    # Xác thực thông qua server gRPC
     if authenticate_with_grpc(username, password):
+        session['username'] = username  # Lưu thông tin vào session
         return jsonify({"success": True, "login_success": True})
     else:
         return jsonify({"success": False, "login_success": False}), 401
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()  # Xóa toàn bộ session bao gồm cả thông tin giỏ hàng và username
+    return jsonify({"success": True, "message": "Đăng xuất thành công!"})
 
 @app.route('/notify-login-success', methods=['POST'])
 def notify_login_success():
@@ -81,6 +107,35 @@ def notify_login_success():
     else:
         return jsonify({"success": False}), 400
 
+@app.route('/session-info')
+def session_info():
+    username = session.get('username')
+    return jsonify({'logged_in': bool(username), 'username': username})
+
+# Biến lưu trữ thông tin tài khoản trong RAM
+users_db = {}
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    # Kiểm tra thông tin đầu vào
+    if not username or not password:
+        return jsonify({"success": False, "message": "Thiếu thông tin tài khoản"}), 400
+
+    # Kiểm tra xem tài khoản đã tồn tại chưa
+    if username in users_db:
+        return jsonify({"success": False, "message": "Tài khoản đã tồn tại"}), 409
+
+    # Lưu thông tin tài khoản vào RAM
+    users_db[username] = {
+        "password": password
+    }
+
+    print(f"Tài khoản mới đã được đăng ký: {username}")
+    return jsonify({"success": True, "message": "Đăng ký thành công!"})
 
 @app.route('/')
 @app.route('/index')
