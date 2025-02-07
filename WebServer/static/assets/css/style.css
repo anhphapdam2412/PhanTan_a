@@ -2,7 +2,7 @@
     text-transform: uppercase;
     position: fixed;
     top: 0;
-    width: 1200px;
+    width: 100%;
     z-index: 100;
 }
 

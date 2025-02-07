@@ -6,21 +6,14 @@ package greeter;
 service Greeter {
   // Xác thực người dùng
   rpc Authenticate (AuthRequest) returns (AuthResponse);
+  rpc GetIndexPage(EmptyRequest) returns (IndexResponse);
+  // Đồng bộ tài khoản giữa các server
+  rpc SyncUserData (SyncRequest) returns (SyncResponse);
+}
+message EmptyRequest {}
 
-  // Thông báo đăng nhập thành công
-  rpc NotifyLoginSuccess (LoginSuccessRequest) returns (LoginSuccessResponse);
-
-  // Lấy nội dung trang HTML
-  rpc GetIndexPage (EmptyRequest) returns (HtmlResponse);
-
-  // Quản lý giỏ hàng
-  rpc AddToCart (CartRequest) returns (CartResponse);
-  rpc RemoveFromCart (CartRequest) returns (CartResponse);
-  rpc IncreaseQuantity (CartRequest) returns (CartResponse);
-  rpc DecreaseQuantity (CartRequest) returns (CartResponse);
-
-  // Xử lý thanh toán
-  rpc SubmitPayment (PaymentRequest) returns (PaymentResponse);
+message IndexResponse {
+  string html_content = 1;
 }
 
 // Request và Response cho xác thực
@@ -31,62 +24,14 @@ message AuthRequest {
 
 message AuthResponse {
   bool success = 1;
-  string message = 2;
 }
 
-// Thông báo đăng nhập
-message LoginSuccessRequest {
+// Request và Response cho đồng bộ dữ liệu
+message SyncRequest {
   string username = 1;
+  string password = 2;
 }
 
-message LoginSuccessResponse {
+message SyncResponse {
   bool success = 1;
-}
-
-// Request trống
-message EmptyRequest {}
-
-// Response chứa nội dung HTML
-message HtmlResponse {
-  string html_content = 1;
-}
-
-// Request cho quản lý giỏ hàng
-message CartRequest {
-  int32 product_id = 1;
-  string product_name = 2;
-  float price = 3;
-  int32 quantity = 4;
-  string image_url = 5;
-}
-
-// Response cho quản lý giỏ hàng
-message CartResponse {
-  bool success = 1;
-  string message = 2;
-  int32 new_quantity = 3;
-}
-
-// Request cho thanh toán
-message PaymentRequest {
-  string name = 1;
-  string phone = 2;
-  string address = 3;
-  string payment_method = 4;
-  repeated CartItem cart = 5;
-}
-
-// Thông tin sản phẩm trong giỏ hàng
-message CartItem {
-  int32 id = 1;
-  string name = 2;
-  float price = 3;
-  int32 quantity = 4;
-}
-
-// Response cho thanh toán
-message PaymentResponse {
-  bool success = 1;
-  string message = 2;
-  string total_price = 3;
 }
