@@ -9,7 +9,7 @@ import re
 app = Flask(__name__)
 
 VALID_PAYMENT_METHODS = {"cod", "bank", "paypal"}
-GRPC_SERVER_LIST = ['localhost:50052']
+GRPC_SERVER_LIST = ['localhost:50051', 'localhost:50052']
 
 # Cấu hình session
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -18,8 +18,20 @@ Session(app)
 current_server = None
 
 MAX_RETRIES = 3
+grpc_channels = {address: grpc.insecure_channel(address) for address in GRPC_SERVER_LIST}
 
-# Kết nối với server gRPC để thực hiện xác thực và lấy HTML
+
+def switch_server():
+    """Chuyển sang server gRPC khác khi gặp lỗi."""
+    global current_server
+    remaining_servers = [srv for srv in GRPC_SERVER_LIST if srv != current_server]
+    if remaining_servers:
+        current_server = random.choice(remaining_servers)
+        print(f"⚠️ Chuyển sang server {current_server}")
+    else:
+        print("❌ Không có server nào khả dụng!")
+
+
 def authenticate_with_grpc(username, password):
     global current_server
 
@@ -27,16 +39,17 @@ def authenticate_with_grpc(username, password):
         current_server = random.choice(GRPC_SERVER_LIST)
 
     try:
-        with grpc.insecure_channel(current_server) as channel:
-            stub = greeter_pb2_grpc.GreeterStub(channel)
-            response = stub.Authenticate(greeter_pb2.AuthRequest(username=username, password=password), timeout=5)
-            if response.success:
-                print(f"✅ Đã xác thực thành công với {current_server}")
-                return True
+        channel = grpc_channels[current_server]
+        stub = greeter_pb2_grpc.GreeterStub(channel)
+        response = stub.Authenticate(greeter_pb2.AuthRequest(username=username, password=password), timeout=5)
+        if response.success:
+            print(f"✅ Đã xác thực thành công với {current_server}")
+            return True
     except grpc.RpcError as e:
         print(f"❌ Lỗi kết nối tới {current_server}: {e}")
-        current_server = None  # Nếu gặp lỗi, đặt lại server
-        return False
+        switch_server()
+        return authenticate_with_grpc(username, password) if current_server else False
+
 
 def get_server_code(retries=0):
     global current_server
@@ -52,12 +65,24 @@ def get_server_code(retries=0):
             return response.html_content
     except grpc.RpcError as e:
         print(f"❌ Lỗi kết nối tới {current_server}: {e}")
-        current_server = None
-        if retries < MAX_RETRIES:
+        switch_server()
+        if retries < MAX_RETRIES and current_server:
             return get_server_code(retries + 1)
         else:
             return "<h1>500 - Không thể kết nối với backend!</h1>"
-
+def notify_successful_login(username, password):
+    """Đồng bộ tài khoản với server khác"""
+    for server in GRPC_SERVER_LIST:
+        if server != current_server:
+            try:
+                with grpc.insecure_channel(server) as channel:
+                    stub = greeter_pb2_grpc.GreeterStub(channel)
+                    request = greeter_pb2.SyncRequest(username=username, password=password)
+                    response = stub.SyncUserData(request, timeout=5)
+                    if response.success:
+                        print(f"✅ Đồng bộ tài khoản {username} sang {server} thành công")
+            except grpc.RpcError as e:
+                print(f"❌ Không thể đồng bộ với {server}: {e}")
 
 def get_cart():
     """Lấy giỏ hàng từ session"""
@@ -70,16 +95,6 @@ def update_cart(cart):
     session['cart'] = cart
     session.modified = True
 
-def clear_cart(username):
-    try:
-        with grpc.insecure_channel(current_server) as channel:
-            stub = greeter_pb2_grpc.GreeterStub(channel)
-            response = stub.GetCart(greeter_pb2.ClearCartRequest(username=username))
-            return response.success
-    except grpc.RpcError:
-        return False
-
-
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
@@ -87,7 +102,9 @@ def login():
     password = data.get("password")
 
     if authenticate_with_grpc(username, password):
-        session['username'] = username  # Lưu thông tin vào session
+        session['username'] = username
+        # Đồng bộ tài khoản với server còn lại
+        notify_successful_login(username, password)
         return jsonify({"success": True, "login_success": True})
     else:
         return jsonify({"success": False, "login_success": False}), 401
@@ -156,6 +173,7 @@ def introduce():
 @app.route('/products')
 def products():
     return render_template('products.html')
+
 @app.route('/health')
 def health():
     return jsonify({"status": "healthy"}), 200
@@ -189,15 +207,12 @@ def add_to_cart():
 
     cart = get_cart()
 
-    # Kiểm tra nếu giỏ hàng trống hoặc không chứa các sản phẩm hợp lệ
     for item in cart:
-        # Kiểm tra item có đầy đủ key trước khi so sánh
         if 'id' in item and item['id'] == product_id:
             item['quantity'] += 1
             update_cart(cart)
             return jsonify(success=True, new_quantity=item['quantity'])
 
-    # Thêm sản phẩm mới nếu chưa có trong giỏ hàng
     new_item = {
         'id': product_id,
         'name': product_name,
@@ -253,24 +268,20 @@ def submit_payment():
     payment_method = data.get('payment_method', '').strip().lower()
     cart = data.get('cart', [])
 
-    # Kiểm tra dữ liệu đầu vào
     if not name or not phone or not address or not cart:
         return jsonify(success=False, message="Thiếu thông tin cần thiết cho thanh toán."), 400
 
-    if not re.match(r'^\d{9,11}$', phone):  # Kiểm tra số điện thoại 9-11 số
+    if not re.match(r'^\d{9,11}$', phone):
         return jsonify(success=False, message="Số điện thoại không hợp lệ."), 400
 
     if payment_method not in VALID_PAYMENT_METHODS:
         return jsonify(success=False, message="Phương thức thanh toán không hợp lệ."), 400
 
-    # Tính tổng tiền từ giỏ hàng
     total_price = sum(item['quantity'] * item.get('price', 0) for item in cart)
-    total_price_str = f"{total_price:,} VND"  # Định dạng số tiền
+    total_price_str = f"{total_price:,} VND"
 
-    # Giả lập xử lý thanh toán (thực tế có thể gọi API ngân hàng hoặc PayPal)
     print(f"Thanh toán thành công! Tổng tiền: {total_price_str} bằng phương thức {payment_method.upper()}")
 
-    # Xóa giỏ hàng sau khi thanh toán
     session['cart'] = []
 
     return jsonify(success=True, message="Thanh toán thành công!", total_price=total_price_str)

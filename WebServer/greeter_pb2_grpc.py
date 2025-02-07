@@ -40,40 +40,10 @@ class GreeterStub(object):
                 request_serializer=greeter__pb2.AuthRequest.SerializeToString,
                 response_deserializer=greeter__pb2.AuthResponse.FromString,
                 _registered_method=True)
-        self.NotifyLoginSuccess = channel.unary_unary(
-                '/greeter.Greeter/NotifyLoginSuccess',
-                request_serializer=greeter__pb2.LoginSuccessRequest.SerializeToString,
-                response_deserializer=greeter__pb2.LoginSuccessResponse.FromString,
-                _registered_method=True)
-        self.GetIndexPage = channel.unary_unary(
-                '/greeter.Greeter/GetIndexPage',
-                request_serializer=greeter__pb2.EmptyRequest.SerializeToString,
-                response_deserializer=greeter__pb2.HtmlResponse.FromString,
-                _registered_method=True)
-        self.AddToCart = channel.unary_unary(
-                '/greeter.Greeter/AddToCart',
-                request_serializer=greeter__pb2.CartRequest.SerializeToString,
-                response_deserializer=greeter__pb2.CartResponse.FromString,
-                _registered_method=True)
-        self.RemoveFromCart = channel.unary_unary(
-                '/greeter.Greeter/RemoveFromCart',
-                request_serializer=greeter__pb2.CartRequest.SerializeToString,
-                response_deserializer=greeter__pb2.CartResponse.FromString,
-                _registered_method=True)
-        self.IncreaseQuantity = channel.unary_unary(
-                '/greeter.Greeter/IncreaseQuantity',
-                request_serializer=greeter__pb2.CartRequest.SerializeToString,
-                response_deserializer=greeter__pb2.CartResponse.FromString,
-                _registered_method=True)
-        self.DecreaseQuantity = channel.unary_unary(
-                '/greeter.Greeter/DecreaseQuantity',
-                request_serializer=greeter__pb2.CartRequest.SerializeToString,
-                response_deserializer=greeter__pb2.CartResponse.FromString,
-                _registered_method=True)
-        self.SubmitPayment = channel.unary_unary(
-                '/greeter.Greeter/SubmitPayment',
-                request_serializer=greeter__pb2.PaymentRequest.SerializeToString,
-                response_deserializer=greeter__pb2.PaymentResponse.FromString,
+        self.SyncUserData = channel.unary_unary(
+                '/greeter.Greeter/SyncUserData',
+                request_serializer=greeter__pb2.SyncRequest.SerializeToString,
+                response_deserializer=greeter__pb2.SyncResponse.FromString,
                 _registered_method=True)
 
 
@@ -88,47 +58,8 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def NotifyLoginSuccess(self, request, context):
-        """Thông báo đăng nhập thành công
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetIndexPage(self, request, context):
-        """Lấy nội dung trang HTML
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def AddToCart(self, request, context):
-        """Quản lý giỏ hàng
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def RemoveFromCart(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def IncreaseQuantity(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DecreaseQuantity(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def SubmitPayment(self, request, context):
-        """Xử lý thanh toán
+    def SyncUserData(self, request, context):
+        """Đồng bộ tài khoản giữa các server
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -142,40 +73,10 @@ def add_GreeterServicer_to_server(servicer, server):
                     request_deserializer=greeter__pb2.AuthRequest.FromString,
                     response_serializer=greeter__pb2.AuthResponse.SerializeToString,
             ),
-            'NotifyLoginSuccess': grpc.unary_unary_rpc_method_handler(
-                    servicer.NotifyLoginSuccess,
-                    request_deserializer=greeter__pb2.LoginSuccessRequest.FromString,
-                    response_serializer=greeter__pb2.LoginSuccessResponse.SerializeToString,
-            ),
-            'GetIndexPage': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetIndexPage,
-                    request_deserializer=greeter__pb2.EmptyRequest.FromString,
-                    response_serializer=greeter__pb2.HtmlResponse.SerializeToString,
-            ),
-            'AddToCart': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddToCart,
-                    request_deserializer=greeter__pb2.CartRequest.FromString,
-                    response_serializer=greeter__pb2.CartResponse.SerializeToString,
-            ),
-            'RemoveFromCart': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemoveFromCart,
-                    request_deserializer=greeter__pb2.CartRequest.FromString,
-                    response_serializer=greeter__pb2.CartResponse.SerializeToString,
-            ),
-            'IncreaseQuantity': grpc.unary_unary_rpc_method_handler(
-                    servicer.IncreaseQuantity,
-                    request_deserializer=greeter__pb2.CartRequest.FromString,
-                    response_serializer=greeter__pb2.CartResponse.SerializeToString,
-            ),
-            'DecreaseQuantity': grpc.unary_unary_rpc_method_handler(
-                    servicer.DecreaseQuantity,
-                    request_deserializer=greeter__pb2.CartRequest.FromString,
-                    response_serializer=greeter__pb2.CartResponse.SerializeToString,
-            ),
-            'SubmitPayment': grpc.unary_unary_rpc_method_handler(
-                    servicer.SubmitPayment,
-                    request_deserializer=greeter__pb2.PaymentRequest.FromString,
-                    response_serializer=greeter__pb2.PaymentResponse.SerializeToString,
+            'SyncUserData': grpc.unary_unary_rpc_method_handler(
+                    servicer.SyncUserData,
+                    request_deserializer=greeter__pb2.SyncRequest.FromString,
+                    response_serializer=greeter__pb2.SyncResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -217,7 +118,7 @@ class Greeter(object):
             _registered_method=True)
 
     @staticmethod
-    def NotifyLoginSuccess(request,
+    def SyncUserData(request,
             target,
             options=(),
             channel_credentials=None,
@@ -230,171 +131,9 @@ class Greeter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/greeter.Greeter/NotifyLoginSuccess',
-            greeter__pb2.LoginSuccessRequest.SerializeToString,
-            greeter__pb2.LoginSuccessResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetIndexPage(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/GetIndexPage',
-            greeter__pb2.EmptyRequest.SerializeToString,
-            greeter__pb2.HtmlResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def AddToCart(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/AddToCart',
-            greeter__pb2.CartRequest.SerializeToString,
-            greeter__pb2.CartResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def RemoveFromCart(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/RemoveFromCart',
-            greeter__pb2.CartRequest.SerializeToString,
-            greeter__pb2.CartResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def IncreaseQuantity(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/IncreaseQuantity',
-            greeter__pb2.CartRequest.SerializeToString,
-            greeter__pb2.CartResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def DecreaseQuantity(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/DecreaseQuantity',
-            greeter__pb2.CartRequest.SerializeToString,
-            greeter__pb2.CartResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def SubmitPayment(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/SubmitPayment',
-            greeter__pb2.PaymentRequest.SerializeToString,
-            greeter__pb2.PaymentResponse.FromString,
+            '/greeter.Greeter/SyncUserData',
+            greeter__pb2.SyncRequest.SerializeToString,
+            greeter__pb2.SyncResponse.FromString,
             options,
             channel_credentials,
             insecure,
