@@ -14,6 +14,9 @@ db_lock = threading.Lock()
 server_ports = [50051, 50052, 50053]
 
 class GreeterService(greeter_pb2_grpc.GreeterServicer):
+    def GetIndexPage(self, request, context):
+        return greeter_pb2.IndexResponse(html_content="<h1>Welcome to the Home Page</h1>")
+
     def Authenticate(self, request, context):
         username = request.username
         password = request.password

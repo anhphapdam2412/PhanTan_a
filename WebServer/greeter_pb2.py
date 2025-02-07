@@ -24,21 +24,25 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgreeter.proto\x12\x07greeter\"1\n\x0b\x41uthRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1f\n\x0c\x41uthResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"1\n\x0bSyncRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1f\n\x0cSyncResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\x83\x01\n\x07Greeter\x12;\n\x0c\x41uthenticate\x12\x14.greeter.AuthRequest\x1a\x15.greeter.AuthResponse\x12;\n\x0cSyncUserData\x12\x14.greeter.SyncRequest\x1a\x15.greeter.SyncResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgreeter.proto\x12\x07greeter\"\x0e\n\x0c\x45mptyRequest\"%\n\rIndexResponse\x12\x14\n\x0chtml_content\x18\x01 \x01(\t\"1\n\x0b\x41uthRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1f\n\x0c\x41uthResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"1\n\x0bSyncRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1f\n\x0cSyncResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xc2\x01\n\x07Greeter\x12;\n\x0c\x41uthenticate\x12\x14.greeter.AuthRequest\x1a\x15.greeter.AuthResponse\x12=\n\x0cGetIndexPage\x12\x15.greeter.EmptyRequest\x1a\x16.greeter.IndexResponse\x12;\n\x0cSyncUserData\x12\x14.greeter.SyncRequest\x1a\x15.greeter.SyncResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'greeter_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_AUTHREQUEST']._serialized_start=26
-  _globals['_AUTHREQUEST']._serialized_end=75
-  _globals['_AUTHRESPONSE']._serialized_start=77
-  _globals['_AUTHRESPONSE']._serialized_end=108
-  _globals['_SYNCREQUEST']._serialized_start=110
-  _globals['_SYNCREQUEST']._serialized_end=159
-  _globals['_SYNCRESPONSE']._serialized_start=161
-  _globals['_SYNCRESPONSE']._serialized_end=192
-  _globals['_GREETER']._serialized_start=195
-  _globals['_GREETER']._serialized_end=326
+  _globals['_EMPTYREQUEST']._serialized_start=26
+  _globals['_EMPTYREQUEST']._serialized_end=40
+  _globals['_INDEXRESPONSE']._serialized_start=42
+  _globals['_INDEXRESPONSE']._serialized_end=79
+  _globals['_AUTHREQUEST']._serialized_start=81
+  _globals['_AUTHREQUEST']._serialized_end=130
+  _globals['_AUTHRESPONSE']._serialized_start=132
+  _globals['_AUTHRESPONSE']._serialized_end=163
+  _globals['_SYNCREQUEST']._serialized_start=165
+  _globals['_SYNCREQUEST']._serialized_end=214
+  _globals['_SYNCRESPONSE']._serialized_start=216
+  _globals['_SYNCRESPONSE']._serialized_end=247
+  _globals['_GREETER']._serialized_start=250
+  _globals['_GREETER']._serialized_end=444
 # @@protoc_insertion_point(module_scope)

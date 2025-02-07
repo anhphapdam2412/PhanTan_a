@@ -40,6 +40,11 @@ class GreeterStub(object):
                 request_serializer=greeter__pb2.AuthRequest.SerializeToString,
                 response_deserializer=greeter__pb2.AuthResponse.FromString,
                 _registered_method=True)
+        self.GetIndexPage = channel.unary_unary(
+                '/greeter.Greeter/GetIndexPage',
+                request_serializer=greeter__pb2.EmptyRequest.SerializeToString,
+                response_deserializer=greeter__pb2.IndexResponse.FromString,
+                _registered_method=True)
         self.SyncUserData = channel.unary_unary(
                 '/greeter.Greeter/SyncUserData',
                 request_serializer=greeter__pb2.SyncRequest.SerializeToString,
@@ -58,6 +63,12 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetIndexPage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def SyncUserData(self, request, context):
         """Đồng bộ tài khoản giữa các server
         """
@@ -72,6 +83,11 @@ def add_GreeterServicer_to_server(servicer, server):
                     servicer.Authenticate,
                     request_deserializer=greeter__pb2.AuthRequest.FromString,
                     response_serializer=greeter__pb2.AuthResponse.SerializeToString,
+            ),
+            'GetIndexPage': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetIndexPage,
+                    request_deserializer=greeter__pb2.EmptyRequest.FromString,
+                    response_serializer=greeter__pb2.IndexResponse.SerializeToString,
             ),
             'SyncUserData': grpc.unary_unary_rpc_method_handler(
                     servicer.SyncUserData,
@@ -107,6 +123,33 @@ class Greeter(object):
             '/greeter.Greeter/Authenticate',
             greeter__pb2.AuthRequest.SerializeToString,
             greeter__pb2.AuthResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetIndexPage(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/GetIndexPage',
+            greeter__pb2.EmptyRequest.SerializeToString,
+            greeter__pb2.IndexResponse.FromString,
             options,
             channel_credentials,
             insecure,

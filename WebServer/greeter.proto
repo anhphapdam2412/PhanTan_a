@@ -6,9 +6,14 @@ package greeter;
 service Greeter {
   // Xác thực người dùng
   rpc Authenticate (AuthRequest) returns (AuthResponse);
-
+  rpc GetIndexPage(EmptyRequest) returns (IndexResponse);
   // Đồng bộ tài khoản giữa các server
   rpc SyncUserData (SyncRequest) returns (SyncResponse);
+}
+message EmptyRequest {}
+
+message IndexResponse {
+  string html_content = 1;
 }
 
 // Request và Response cho xác thực
