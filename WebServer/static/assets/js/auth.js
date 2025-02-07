@@ -1,48 +1,30 @@
-// Chọn các phần tử cần thao tác
-const loginBtn = document.querySelector('.js_login');
-const modal = document.querySelector('.js_modal');
-const modalClose = document.querySelectorAll('.js_modal-close');
-const modalOverlay = document.querySelector('.js_overlay');
-const switchToRegister = document.querySelectorAll('.js_switch');
-const loginForm = document.querySelector('.js_login-form');
-const registerForm = document.querySelector('.js_register-form');
-const registerBtn = document.querySelector('.btn_register-submit');
+const loginBtn = document.querySelector('.js_login'); 
+const modal = document.querySelector('.js_modal'); 
+const modalClose = document.querySelectorAll('.js_modal-close'); 
+const modalOverlay = document.querySelector('.js_overlay'); 
 
-// Hiển thị form đăng nhập
 function showLoginForm() {
     modal.classList.add('open');
-    loginForm.style.display = 'block';
-    registerForm.style.display = 'none';
 }
 
-// Đóng modal
 function closeModal() {
     modal.classList.remove('open');
 }
 
-// Chuyển đổi giữa form đăng nhập và đăng ký
-function switchForm() {
-    if (loginForm.style.display === 'block') {
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-    } else {
-        registerForm.style.display = 'none';
-        loginForm.style.display = 'block';
-    }
-}
+loginBtn.addEventListener('click', showLoginForm);
+modalOverlay.addEventListener('click', closeModal);     
+modalClose.forEach(button => button.addEventListener('click', closeModal));
+document.querySelector('.btn_login-register').addEventListener('click', handleLogin);
 
-// Cài đặt cookie
 function setCookie(name, value, days) {
     const expires = new Date(Date.now() + days * 864e5).toUTCString();
     document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
 
-// Lấy cookie
 function getCookie(name) {
     return document.cookie.split('; ').find(row => row.startsWith(name))?.split('=')[1];
 }
 
-// Xử lý đăng nhập
 function handleLogin(event) {
     event.preventDefault();
 
@@ -55,14 +37,16 @@ function handleLogin(event) {
         body: JSON.stringify({ username, password })
     })
     .then(response => {
-        if (!response.ok) throw new Error('Sai thông tin đăng nhập!');
+        if (!response.ok) {
+            throw new Error('Sai thông tin đăng nhập!');
+        }
         return response.json();
     })
     .then(data => {
         if (data.success) {
             alert("Đăng nhập thành công!");
-            setCookie('username', username, 1);
-            handleSuccessfulLogin(username);
+            setCookie('username', username, 1); // Lưu thông tin vào cookie
+            displayUsername(username);
         }
     })
     .catch(error => alert(error.message));
@@ -70,39 +54,58 @@ function handleLogin(event) {
 
 // Hiển thị trạng thái online
 function showOnlineStatus(username) {
-    let onlineStatus = document.querySelector('#online-status');
-    if (!onlineStatus) {
-        onlineStatus = document.createElement('div');
-        onlineStatus.id = 'online-status';
-        onlineStatus.style.backgroundColor = '#4CAF50';
-        onlineStatus.style.color = 'white';
-        onlineStatus.style.padding = '10px';
-        onlineStatus.style.position = 'fixed';
-        onlineStatus.style.bottom = '10px';
-        onlineStatus.style.right = '10px';
-        onlineStatus.style.borderRadius = '5px';
-        onlineStatus.style.fontSize = '16px';
-        onlineStatus.textContent = `Trạng thái: Online (${username})`;
-        document.body.appendChild(onlineStatus);
-    }
-}
+    const onlineStatus = document.createElement('div');
+    onlineStatus.id = 'online-status';
+    onlineStatus.style.backgroundColor = '#4CAF50';
+    onlineStatus.style.color = 'white';
+    onlineStatus.style.padding = '10px';
+    onlineStatus.style.position = 'fixed';
+    onlineStatus.style.top = '10px';
+    onlineStatus.style.left = '10px';
+    onlineStatus.style.borderRadius = '5px';
+    onlineStatus.style.fontSize = '16px';
+    onlineStatus.textContent = `Online: ${username}`;
+    onlineStatus.style.zIndex = -1;
 
-// Thông báo về server khi đăng nhập thành công
+    document.body.appendChild(onlineStatus);
+}
 function notifyServer(username) {
     fetch('/notify-login-success', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username })
+        body: JSON.stringify({ username: username })
     })
     .then(response => response.json())
-    .then(() => console.log("Thông báo đã được gửi đến server."))
-    .catch(error => console.error("Lỗi khi gửi thông báo về server:", error));
+    .then(data => {
+        console.log("Thông báo đã được gửi đến server.");
+    })
+    .catch(error => {
+        console.error("Lỗi khi gửi thông báo về server:", error);
+    });
 }
-
-// Hiển thị tên người dùng và thêm nút đăng xuất
 function displayUsername(username) {
     if (loginBtn) {
         loginBtn.style.display = 'none';
+        const userDisplay = document.createElement('div');
+        userDisplay.textContent = `${username}`;
+        userDisplay.style.color = '#4CAF50';
+        userDisplay.style.fontWeight = 'bold';
+        loginBtn.parentElement.appendChild(userDisplay);
+    }
+}
+// Khởi tạo nút đăng xuất và thêm vào DOM sau khi đăng nhập thành công
+function handleSuccessfulLogin(username) {
+    loginBtn.style.display = 'none';  // Ẩn nút đăng nhập
+    displayLogoutButton();            // Hiện nút đăng xuất
+    showOnlineStatus(username);       // Hiển thị trạng thái online
+}
+
+function displayUsername(username) {
+    const loginBtn = document.querySelector('.js_login');
+    if (loginBtn) {
+        loginBtn.style.display = 'none'; // Ẩn nút đăng nhập
+
+        // Tạo phần tử hiển thị tên tài khoản và nút đăng xuất
         const userDisplay = document.createElement('div');
         userDisplay.classList.add('user-display-container');
         userDisplay.style.display = 'flex';
@@ -128,11 +131,12 @@ function displayUsername(username) {
 
         userDisplay.appendChild(userText);
         userDisplay.appendChild(logoutBtn);
+
+        // Thêm vào vị trí cũ của nút đăng nhập
         loginBtn.parentElement.appendChild(userDisplay);
     }
 }
 
-// Xử lý nút đăng xuất
 function handleLogout() {
     fetch('/logout', {
         method: 'POST',
@@ -142,7 +146,6 @@ function handleLogout() {
     .then(data => {
         if (data.success) {
             alert(data.message);
-            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             location.reload();
         }
     })
@@ -151,74 +154,27 @@ function handleLogout() {
         alert("Không thể đăng xuất!");
     });
 }
-
-// Kiểm tra trạng thái phiên từ server
-function checkSessionFromServer() {
+window.onload = function () {
+    const username = getCookie('username');
+    if (username) {
+        displayUsername(decodeURIComponent(username));
+    }
+};
+window.onload = function () {
     fetch('/session-info')
         .then(response => response.json())
         .then(data => {
             if (data.logged_in) {
-                handleSuccessfulLogin(data.username);
+                displayUsername(data.username);
             }
-        })
-        .catch(error => console.error("Lỗi khi kiểm tra phiên:", error));
-}
-
-// Xử lý sau khi đăng nhập thành công
-function handleSuccessfulLogin(username) {
-    displayUsername(username);
-    showOnlineStatus(username);
-    notifyServer(username);
-}
-
-// Gán sự kiện cho các nút và biểu mẫu
-loginBtn?.addEventListener('click', showLoginForm);
-modalOverlay?.addEventListener('click', closeModal);
-modalClose.forEach(button => button.addEventListener('click', closeModal));
-document.querySelector('.btn_login-submit')?.addEventListener('click', handleLogin);
-switchToRegister.forEach(button => button.addEventListener('click', switchForm));
-
-// Kiểm tra trạng thái khi tải trang
-window.addEventListener('DOMContentLoaded', () => {
-    const username = getCookie('username');
-    if (username) {
-        handleSuccessfulLogin(decodeURIComponent(username));
+        });
+};
+function switchForm() {
+    if (loginForm.style.display === 'block') {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
     } else {
-        checkSessionFromServer();
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
     }
-});
-
-// Xử lý sự kiện đăng ký
-function handleRegister(event) {
-    event.preventDefault();
-
-    const username = document.querySelector('.js_register-username').value;
-    const password = document.querySelector('.js_register-password').value;
-
-    if (!username || !password) {
-        alert("Vui lòng nhập đầy đủ thông tin!");
-        return;
-    }
-
-    fetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("Đăng ký thành công!");
-            closeModal();
-        } else {
-            alert(data.message || "Đăng ký thất bại!");
-        }
-    })
-    .catch(error => {
-        console.error("Lỗi khi đăng ký:", error);
-        alert("Có lỗi xảy ra, vui lòng thử lại sau.");
-    });
 }
-
-// Gán sự kiện cho nút đăng ký
-registerBtn?.addEventListener('click', handleRegister);

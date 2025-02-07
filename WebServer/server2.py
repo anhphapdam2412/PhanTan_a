@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-USER_DATA = {"a@gmail.com": "1"}
+USER_DATA = {"b@gmail.com": "1"}
 INDEX_FILE_PATH = "WebServer/templates/index.html"
 
 class GreeterServicer(greeter_pb2_grpc.GreeterServicer):
