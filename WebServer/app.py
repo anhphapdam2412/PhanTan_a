@@ -116,29 +116,46 @@ def session_info():
     return jsonify({'logged_in': bool(username), 'username': username})
 
 # Biến lưu trữ thông tin tài khoản trong RAM
-users_db = {}
+users = {}
+def send_user_to_grpc_server(email, password):
+    global current_server
+    try:
+        with grpc.insecure_channel(current_server) as channel:
+            stub = greeter_pb2_grpc.GreeterStub(channel)
+            request = greeter_pb2.SyncRequest(username=email, password=password)
+            response = stub.SyncUserData(request)
+            if response.success:
+                print(f"✅ Đồng bộ tài khoản {email} thành công!")
+            else:
+                print(f"❌ Đồng bộ tài khoản {email} thất bại!")
+    except grpc.RpcError as e:
+        print(f"❌ Lỗi khi kết nối đến gRPC Server: {e}")
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
 
-    # Kiểm tra thông tin đầu vào
-    if not username or not password:
-        return jsonify({"success": False, "message": "Thiếu thông tin tài khoản"}), 400
+        if not email or not password:
+            return jsonify({"message": "Thiếu thông tin tài khoản"}), 400
 
-    # Kiểm tra xem tài khoản đã tồn tại chưa
-    if username in users_db:
-        return jsonify({"success": False, "message": "Tài khoản đã tồn tại"}), 409
+        if email in users:
+            return jsonify({"message": "Email đã được sử dụng!"}), 409
 
-    # Lưu thông tin tài khoản vào RAM
-    users_db[username] = {
-        "password": password
-    }
+        # Lưu thông tin đăng ký
+        users[email] = password
+        print(f"📥 Người dùng mới: {email}")
 
-    print(f"Tài khoản mới đã được đăng ký: {username}")
-    return jsonify({"success": True, "message": "Đăng ký thành công!"})
+        # Gửi thông tin đến gRPC Server
+        send_user_to_grpc_server(email, password)
+
+        return jsonify({"message": "Đăng ký thành công!"}), 201
+    except Exception as e:
+        return jsonify({"message": "Đã xảy ra lỗi trong xử lý dữ liệu"}), 500
+
+
 
 @app.route('/')
 @app.route('/index')
