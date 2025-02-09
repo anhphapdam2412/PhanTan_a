@@ -26,8 +26,7 @@ if _version_not_supported:
 
 
 class GreeterStub(object):
-    """Dịch vụ Greeter cho gRPC
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -35,33 +34,35 @@ class GreeterStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.GetIndexPage = channel.unary_unary(
+                '/greeter.Greeter/GetIndexPage',
+                request_serializer=greeter__pb2.Empty.SerializeToString,
+                response_deserializer=greeter__pb2.IndexResponse.FromString,
+                _registered_method=True)
         self.Authenticate = channel.unary_unary(
                 '/greeter.Greeter/Authenticate',
                 request_serializer=greeter__pb2.AuthRequest.SerializeToString,
                 response_deserializer=greeter__pb2.AuthResponse.FromString,
-                _registered_method=True)
-        self.GetIndexPage = channel.unary_unary(
-                '/greeter.Greeter/GetIndexPage',
-                request_serializer=greeter__pb2.EmptyRequest.SerializeToString,
-                response_deserializer=greeter__pb2.IndexResponse.FromString,
                 _registered_method=True)
         self.SyncUserData = channel.unary_unary(
                 '/greeter.Greeter/SyncUserData',
                 request_serializer=greeter__pb2.SyncRequest.SerializeToString,
                 response_deserializer=greeter__pb2.SyncResponse.FromString,
                 _registered_method=True)
+        self.Register = channel.unary_unary(
+                '/greeter.Greeter/Register',
+                request_serializer=greeter__pb2.RegisterRequest.SerializeToString,
+                response_deserializer=greeter__pb2.AuthResponse.FromString,
+                _registered_method=True)
+        self.CheckUserExistence = channel.unary_unary(
+                '/greeter.Greeter/CheckUserExistence',
+                request_serializer=greeter__pb2.CheckUserExistenceRequest.SerializeToString,
+                response_deserializer=greeter__pb2.CheckUserExistenceResponse.FromString,
+                _registered_method=True)
 
 
 class GreeterServicer(object):
-    """Dịch vụ Greeter cho gRPC
-    """
-
-    def Authenticate(self, request, context):
-        """Xác thực người dùng
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+    """Missing associated documentation comment in .proto file."""
 
     def GetIndexPage(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -69,9 +70,26 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Authenticate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def SyncUserData(self, request, context):
-        """Đồng bộ tài khoản giữa các server
-        """
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Register(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckUserExistence(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -79,20 +97,30 @@ class GreeterServicer(object):
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'GetIndexPage': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetIndexPage,
+                    request_deserializer=greeter__pb2.Empty.FromString,
+                    response_serializer=greeter__pb2.IndexResponse.SerializeToString,
+            ),
             'Authenticate': grpc.unary_unary_rpc_method_handler(
                     servicer.Authenticate,
                     request_deserializer=greeter__pb2.AuthRequest.FromString,
                     response_serializer=greeter__pb2.AuthResponse.SerializeToString,
             ),
-            'GetIndexPage': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetIndexPage,
-                    request_deserializer=greeter__pb2.EmptyRequest.FromString,
-                    response_serializer=greeter__pb2.IndexResponse.SerializeToString,
-            ),
             'SyncUserData': grpc.unary_unary_rpc_method_handler(
                     servicer.SyncUserData,
                     request_deserializer=greeter__pb2.SyncRequest.FromString,
                     response_serializer=greeter__pb2.SyncResponse.SerializeToString,
+            ),
+            'Register': grpc.unary_unary_rpc_method_handler(
+                    servicer.Register,
+                    request_deserializer=greeter__pb2.RegisterRequest.FromString,
+                    response_serializer=greeter__pb2.AuthResponse.SerializeToString,
+            ),
+            'CheckUserExistence': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckUserExistence,
+                    request_deserializer=greeter__pb2.CheckUserExistenceRequest.FromString,
+                    response_serializer=greeter__pb2.CheckUserExistenceResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -103,8 +131,34 @@ def add_GreeterServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Greeter(object):
-    """Dịch vụ Greeter cho gRPC
-    """
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def GetIndexPage(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/GetIndexPage',
+            greeter__pb2.Empty.SerializeToString,
+            greeter__pb2.IndexResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
 
     @staticmethod
     def Authenticate(request,
@@ -134,33 +188,6 @@ class Greeter(object):
             _registered_method=True)
 
     @staticmethod
-    def GetIndexPage(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/greeter.Greeter/GetIndexPage',
-            greeter__pb2.EmptyRequest.SerializeToString,
-            greeter__pb2.IndexResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
     def SyncUserData(request,
             target,
             options=(),
@@ -177,6 +204,60 @@ class Greeter(object):
             '/greeter.Greeter/SyncUserData',
             greeter__pb2.SyncRequest.SerializeToString,
             greeter__pb2.SyncResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Register(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/Register',
+            greeter__pb2.RegisterRequest.SerializeToString,
+            greeter__pb2.AuthResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CheckUserExistence(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/CheckUserExistence',
+            greeter__pb2.CheckUserExistenceRequest.SerializeToString,
+            greeter__pb2.CheckUserExistenceResponse.FromString,
             options,
             channel_credentials,
             insecure,

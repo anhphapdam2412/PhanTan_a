@@ -46,7 +46,7 @@ function handleLogin(event) {
         if (data.success) {
             alert("Đăng nhập thành công!");
             setCookie('username', username, 1); // Lưu thông tin vào cookie
-            displayUsername(username);
+            location.reload(); // Reload lại trang sau khi đăng nhập
         }
     })
     .catch(error => alert(error.message));
@@ -178,3 +178,61 @@ function switchForm() {
         loginForm.style.display = 'block';
     }
 }
+
+const registerForm = document.querySelector('.js_register-form');
+const registerButton = registerForm.querySelector('.btn_login-register');
+const switchToRegisterButtons = document.querySelectorAll('.js_switch');
+
+function handleRegister(event) {
+    event.preventDefault();
+
+    const email = registerForm.querySelector('input[type="text"]').value;
+    const password = registerForm.querySelector('input[type="password"]').value;
+    const confirmPassword = registerForm.querySelectorAll('input[type="password"]')[1].value;
+
+    if (!email || !password || !confirmPassword) {
+        alert("Vui lòng nhập đầy đủ thông tin đăng ký!");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Mật khẩu xác nhận không khớp!");
+        return;
+    }
+
+    fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.message || "Đăng ký thất bại!");
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("Đăng ký thành công! Vui lòng đăng nhập.");
+        location.reload(); // Reload lại trang sau khi đăng ký
+    })
+    .catch(error => alert(error.message));
+}
+
+// Switching between forms
+switchToRegisterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const loginForm = document.querySelector('.js_login-form');
+        if (loginForm.style.display === 'block') {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        } else {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        }
+    });
+});
+
+// Handle register button click
+registerButton.addEventListener('click', handleRegister);

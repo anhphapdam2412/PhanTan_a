@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package greeter;
+
+service Greeter {
+  rpc GetIndexPage(Empty) returns (IndexResponse);
+  rpc Authenticate(AuthRequest) returns (AuthResponse);
+  rpc SyncUserData(SyncRequest) returns (SyncResponse);
+  rpc Register(RegisterRequest) returns (AuthResponse);
+  rpc CheckUserExistence(CheckUserExistenceRequest) returns (CheckUserExistenceResponse);
+}
+
+message Empty {}
+
+message AuthRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message IndexResponse {
+  string html_content = 1;
+}
+
+message SyncRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message SyncResponse {
+  bool success = 1;
+}
+
+message CheckUserExistenceRequest {
+  string username = 1;
+}
+
+message CheckUserExistenceResponse {
+  bool exists = 1;
+}
+
+message EmptyRequest {}
+
+message RegisterRequest {
+    string username = 1;
+    string password = 2;
+}
