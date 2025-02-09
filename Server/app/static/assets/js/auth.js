@@ -46,7 +46,7 @@ function handleLogin(event) {
         if (data.success) {
             alert("Đăng nhập thành công!");
             setCookie('username', username, 1); // Lưu thông tin vào cookie
-            displayUsername(username);
+            location.reload(); // Reload lại trang sau khi đăng nhập
         }
     })
     .catch(error => alert(error.message));
@@ -215,7 +215,7 @@ function handleRegister(event) {
     })
     .then(data => {
         alert("Đăng ký thành công! Vui lòng đăng nhập.");
-        closeModal(); // Close the register modal after success
+        location.reload(); // Reload lại trang sau khi đăng ký
     })
     .catch(error => alert(error.message));
 }
