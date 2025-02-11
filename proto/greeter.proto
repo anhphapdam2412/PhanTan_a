@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package proto;
+
+service Greeter {
+    rpc Authenticate(UserRequest) returns (AuthResponse);
+    rpc Register(UserRequest) returns (RegisterResponse);
+}
+
+message UserRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string status = 1;
+    bool success = 2;
+}
+
+message RegisterResponse {
+    string status = 1; 
+    bool success = 2;
+    string message = 3;
+} 
