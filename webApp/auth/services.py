@@ -1,9 +1,6 @@
-from webApp.extension import db
-from webApp.webstore_ma import UserSchema
-from webApp.model import User, UserLocal
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from sqlalchemy.exc import IntegrityError
-from webApp.grpc_client import login, register
+from webApp.grpc_client import login, register, delete
 import grpc
 
 def login_service():
@@ -51,6 +48,27 @@ def register_service():
         else:
             print(f"Register failed {status}")
             return jsonify({'message': 'Đăng ký thất bại, vui lòng thử lại!'}), 500
+
+    except grpc.RpcError as e:
+        error_detail = e.details() or "Lỗi gRPC không xác định"
+        return jsonify({'message': f'Lỗi kết nối gRPC: {error_detail}'}), 500
+
+def delete_user_service():
+    data = request.json
+    if not data or 'username' not in data:
+        return jsonify({'message': 'Vui lòng điền đầy đủ thông tin!'}), 400
+
+    username = data['username']
+
+    try:
+        status = delete(username)
+
+        if status == "Success":
+            print("Delete user success")
+            return jsonify({'message': f'Xóa người dùng {username} thành công!'}), 200
+        else:
+            print(f"Delete user failed {status}")
+            return jsonify({'message': 'Xóa người dùng thất bại, vui lòng thử lại!'}), 500
 
     except grpc.RpcError as e:
         error_detail = e.details() or "Lỗi gRPC không xác định"

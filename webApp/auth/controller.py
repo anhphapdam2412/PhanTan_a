@@ -1,6 +1,5 @@
-from flask import Blueprint, request, jsonify
-from webApp.extension import db
-from .services import login_service, register_service
+from flask import Blueprint, jsonify
+from .services import login_service, register_service, delete_user_service
 from flask_cors import CORS
 import traceback
 
@@ -15,6 +14,10 @@ def login():
 @auth.route('/register', methods=['POST'])
 def register():
     return register_service()
+
+@auth.route('/deleteUser', methods=['DELETE'])
+def delete_user():
+    return delete_user_service()
 
 @auth.errorhandler(Exception)
 def handle_exception(e):

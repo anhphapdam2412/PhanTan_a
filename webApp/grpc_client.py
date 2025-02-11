@@ -52,3 +52,10 @@ def register(stub, username, password):
     if response.success:
         return "Success"
     return f"Failed: Lỗi khi đăng ký {response.status}"
+
+@connect_with_fallback
+def delete(stub, username):
+    response = stub.DeleteUser(greeter_pb2.UserRequest(username=username))
+    if response.success:
+        return "Success"
+    return f"Failed: Lỗi khi xóa {response.status}"

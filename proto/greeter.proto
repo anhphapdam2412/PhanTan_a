@@ -5,6 +5,7 @@ package proto;
 service Greeter {
     rpc Authenticate(UserRequest) returns (AuthResponse);
     rpc Register(UserRequest) returns (RegisterResponse);
+    rpc DeleteUser(UserRequest) returns (DeleteUserResponse);
 }
 
 message UserRequest {
@@ -22,3 +23,8 @@ message RegisterResponse {
     bool success = 2;
     string message = 3;
 } 
+
+message DeleteUserResponse {
+    string message = 1;
+    bool success = 2;
+}

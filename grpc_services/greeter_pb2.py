@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgreeter.proto\x12\x05proto\"A\n\x0bUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x0e\n\x06status\x18\x03 \x01(\t\"/\n\x0c\x41uthResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\"D\n\x10RegisterResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t2{\n\x07Greeter\x12\x37\n\x0c\x41uthenticate\x12\x12.proto.UserRequest\x1a\x13.proto.AuthResponse\x12\x37\n\x08Register\x12\x12.proto.UserRequest\x1a\x17.proto.RegisterResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgreeter.proto\x12\x05proto\"1\n\x0bUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0c\x41uthResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\"D\n\x10RegisterResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"6\n\x12\x44\x65leteUserResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x32\xb8\x01\n\x07Greeter\x12\x37\n\x0c\x41uthenticate\x12\x12.proto.UserRequest\x1a\x13.proto.AuthResponse\x12\x37\n\x08Register\x12\x12.proto.UserRequest\x1a\x17.proto.RegisterResponse\x12;\n\nDeleteUser\x12\x12.proto.UserRequest\x1a\x19.proto.DeleteUserResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,11 +32,13 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'greeter_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_USERREQUEST']._serialized_start=24
-  _globals['_USERREQUEST']._serialized_end=89
-  _globals['_AUTHRESPONSE']._serialized_start=91
-  _globals['_AUTHRESPONSE']._serialized_end=138
-  _globals['_REGISTERRESPONSE']._serialized_start=140
-  _globals['_REGISTERRESPONSE']._serialized_end=208
-  _globals['_GREETER']._serialized_start=210
-  _globals['_GREETER']._serialized_end=333
+  _globals['_USERREQUEST']._serialized_end=73
+  _globals['_AUTHRESPONSE']._serialized_start=75
+  _globals['_AUTHRESPONSE']._serialized_end=122
+  _globals['_REGISTERRESPONSE']._serialized_start=124
+  _globals['_REGISTERRESPONSE']._serialized_end=192
+  _globals['_DELETEUSERRESPONSE']._serialized_start=194
+  _globals['_DELETEUSERRESPONSE']._serialized_end=248
+  _globals['_GREETER']._serialized_start=251
+  _globals['_GREETER']._serialized_end=435
 # @@protoc_insertion_point(module_scope)

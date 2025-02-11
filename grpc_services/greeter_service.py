@@ -3,7 +3,7 @@ import json
 import threading
 import time
 from grpc_services import greeter_pb2_grpc, greeter_pb2
-from webApp import model, config
+from webApp import config
 from webApp.model import UserLocal
 import sys
 from concurrent import futures
@@ -91,6 +91,18 @@ class GreeterService(greeter_pb2_grpc.GreeterServicer):
         self._backup_data()
         
         return greeter_pb2.RegisterResponse(success=True, message="Đăng ký thành công.")
+
+    def DeleteUser(self, request, context):
+        username = request.username
+
+        # Kiểm tra xem người dùng có tồn tại không
+        for user in UserLocal:
+            if user['username'] == username:
+                # Xóa người dùng khỏi danh sách UserLocal
+                UserLocal.remove(user)
+                print(f"Đã xóa tài khoản: {username}")
+                self._backup_data()
+                return greeter_pb2.DeleteUserResponse(success=True, message="Xóa tài khoản thành công.")
 
     def _broadcast_periodically(self):
         """Chạy định kỳ để gửi thông tin đăng ký mới đến các server khác mỗi 60 giây."""
