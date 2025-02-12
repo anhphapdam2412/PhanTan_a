@@ -46,6 +46,3 @@ Bạn có thể kiểm tra các chức năng chính bằng cách truy cập giao
 ## 5. Ghi chú
 - Đảm bảo đã cài đặt đầy đủ thư viện trước khi chạy ứng dụng.
 - Nếu gặp lỗi, kiểm tra lại kết nối giữa Flask và gRPC server.
-
-## 6. Liên hệ
-Nếu có bất kỳ vấn đề hoặc thắc mắc nào, vui lòng liên hệ nhóm phát triển!
