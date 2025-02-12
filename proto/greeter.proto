@@ -1,11 +1,14 @@
 syntax = "proto3";
 
-package proto;
+package greeter;
 
 service Greeter {
-    rpc Authenticate(UserRequest) returns (AuthResponse);
-    rpc Register(UserRequest) returns (RegisterResponse);
-    rpc DeleteUser(UserRequest) returns (DeleteUserResponse);
+    rpc Register (UserRequest) returns (RegisterResponse);
+    rpc Authenticate (UserRequest) returns (AuthResponse);
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+    rpc BackupData (BackupRequest) returns (BackupResponse);
+    rpc CheckHeartbeat (Empty) returns (HeartbeatResponse);
+    rpc RequestBackup (Empty) returns (BackupResponse);
 }
 
 message UserRequest {
@@ -13,18 +16,37 @@ message UserRequest {
     string password = 2;
 }
 
-message AuthResponse {
-    string status = 1;
-    bool success = 2;
+message RegisterResponse {
+    bool success = 1;
+    string message = 2;
+    string status = 3;
 }
 
-message RegisterResponse {
-    string status = 1; 
-    bool success = 2;
-    string message = 3;
-} 
+message AuthResponse {
+    bool success = 1;
+    string status = 2;
+}
+
+message DeleteUserRequest {
+    string username = 1;
+}
 
 message DeleteUserResponse {
-    string message = 1;
-    bool success = 2;
+    bool success = 1;
+    string message = 2;
 }
+
+message BackupRequest {
+    string json_data = 1;
+}
+
+message BackupResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message HeartbeatResponse {
+    bool alive = 1;
+}
+
+message Empty {}

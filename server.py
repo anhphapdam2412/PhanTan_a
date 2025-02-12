@@ -8,7 +8,7 @@ def serve(port):
     greeter_pb2_grpc.add_GreeterServicer_to_server(greeter_service.GreeterService(), server)
     server.add_insecure_port(f'[::]:{port}')
     server.start()
-    print(f"🚀 gRPC server is running at port {port}...")
+    print(f"gRPC server đang chạy trên cổng {port}...")
     server.wait_for_termination()
 
 if __name__ == '__main__':

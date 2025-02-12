@@ -3,9 +3,7 @@ from .extension import db
 
 # model.py
 UserLocal = [
-    {'username': '1', 'password': '1'},
-    {'username': '2', 'password': '2'},
-    {'username': '3', 'password': '3'}
+    {'username': None, 'password': None}
 ]
 
 

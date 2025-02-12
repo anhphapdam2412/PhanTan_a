@@ -34,33 +34,48 @@ class GreeterStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Authenticate = channel.unary_unary(
-                '/proto.Greeter/Authenticate',
-                request_serializer=greeter__pb2.UserRequest.SerializeToString,
-                response_deserializer=greeter__pb2.AuthResponse.FromString,
-                _registered_method=True)
         self.Register = channel.unary_unary(
-                '/proto.Greeter/Register',
+                '/greeter.Greeter/Register',
                 request_serializer=greeter__pb2.UserRequest.SerializeToString,
                 response_deserializer=greeter__pb2.RegisterResponse.FromString,
                 _registered_method=True)
-        self.DeleteUser = channel.unary_unary(
-                '/proto.Greeter/DeleteUser',
+        self.Authenticate = channel.unary_unary(
+                '/greeter.Greeter/Authenticate',
                 request_serializer=greeter__pb2.UserRequest.SerializeToString,
+                response_deserializer=greeter__pb2.AuthResponse.FromString,
+                _registered_method=True)
+        self.DeleteUser = channel.unary_unary(
+                '/greeter.Greeter/DeleteUser',
+                request_serializer=greeter__pb2.DeleteUserRequest.SerializeToString,
                 response_deserializer=greeter__pb2.DeleteUserResponse.FromString,
+                _registered_method=True)
+        self.BackupData = channel.unary_unary(
+                '/greeter.Greeter/BackupData',
+                request_serializer=greeter__pb2.BackupRequest.SerializeToString,
+                response_deserializer=greeter__pb2.BackupResponse.FromString,
+                _registered_method=True)
+        self.CheckHeartbeat = channel.unary_unary(
+                '/greeter.Greeter/CheckHeartbeat',
+                request_serializer=greeter__pb2.Empty.SerializeToString,
+                response_deserializer=greeter__pb2.HeartbeatResponse.FromString,
+                _registered_method=True)
+        self.RequestBackup = channel.unary_unary(
+                '/greeter.Greeter/RequestBackup',
+                request_serializer=greeter__pb2.Empty.SerializeToString,
+                response_deserializer=greeter__pb2.BackupResponse.FromString,
                 _registered_method=True)
 
 
 class GreeterServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Authenticate(self, request, context):
+    def Register(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def Register(self, request, context):
+    def Authenticate(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -72,61 +87,67 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def BackupData(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckHeartbeat(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RequestBackup(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Authenticate': grpc.unary_unary_rpc_method_handler(
-                    servicer.Authenticate,
-                    request_deserializer=greeter__pb2.UserRequest.FromString,
-                    response_serializer=greeter__pb2.AuthResponse.SerializeToString,
-            ),
             'Register': grpc.unary_unary_rpc_method_handler(
                     servicer.Register,
                     request_deserializer=greeter__pb2.UserRequest.FromString,
                     response_serializer=greeter__pb2.RegisterResponse.SerializeToString,
             ),
+            'Authenticate': grpc.unary_unary_rpc_method_handler(
+                    servicer.Authenticate,
+                    request_deserializer=greeter__pb2.UserRequest.FromString,
+                    response_serializer=greeter__pb2.AuthResponse.SerializeToString,
+            ),
             'DeleteUser': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteUser,
-                    request_deserializer=greeter__pb2.UserRequest.FromString,
+                    request_deserializer=greeter__pb2.DeleteUserRequest.FromString,
                     response_serializer=greeter__pb2.DeleteUserResponse.SerializeToString,
+            ),
+            'BackupData': grpc.unary_unary_rpc_method_handler(
+                    servicer.BackupData,
+                    request_deserializer=greeter__pb2.BackupRequest.FromString,
+                    response_serializer=greeter__pb2.BackupResponse.SerializeToString,
+            ),
+            'CheckHeartbeat': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckHeartbeat,
+                    request_deserializer=greeter__pb2.Empty.FromString,
+                    response_serializer=greeter__pb2.HeartbeatResponse.SerializeToString,
+            ),
+            'RequestBackup': grpc.unary_unary_rpc_method_handler(
+                    servicer.RequestBackup,
+                    request_deserializer=greeter__pb2.Empty.FromString,
+                    response_serializer=greeter__pb2.BackupResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'proto.Greeter', rpc_method_handlers)
+            'greeter.Greeter', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('proto.Greeter', rpc_method_handlers)
+    server.add_registered_method_handlers('greeter.Greeter', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
 class Greeter(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def Authenticate(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/proto.Greeter/Authenticate',
-            greeter__pb2.UserRequest.SerializeToString,
-            greeter__pb2.AuthResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
 
     @staticmethod
     def Register(request,
@@ -142,9 +163,36 @@ class Greeter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/proto.Greeter/Register',
+            '/greeter.Greeter/Register',
             greeter__pb2.UserRequest.SerializeToString,
             greeter__pb2.RegisterResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Authenticate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/Authenticate',
+            greeter__pb2.UserRequest.SerializeToString,
+            greeter__pb2.AuthResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -169,9 +217,90 @@ class Greeter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/proto.Greeter/DeleteUser',
-            greeter__pb2.UserRequest.SerializeToString,
+            '/greeter.Greeter/DeleteUser',
+            greeter__pb2.DeleteUserRequest.SerializeToString,
             greeter__pb2.DeleteUserResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def BackupData(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/BackupData',
+            greeter__pb2.BackupRequest.SerializeToString,
+            greeter__pb2.BackupResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CheckHeartbeat(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/CheckHeartbeat',
+            greeter__pb2.Empty.SerializeToString,
+            greeter__pb2.HeartbeatResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RequestBackup(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/greeter.Greeter/RequestBackup',
+            greeter__pb2.Empty.SerializeToString,
+            greeter__pb2.BackupResponse.FromString,
             options,
             channel_credentials,
             insecure,

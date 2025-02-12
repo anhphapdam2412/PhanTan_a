@@ -1,61 +1,68 @@
 import grpc
-from grpc_services import greeter_pb2, greeter_pb2_grpc
+import threading
+import time
 import random
+from grpc_services import greeter_pb2, greeter_pb2_grpc
 
-SERVER_LIST = ['localhost:50051', 'localhost:50052']
-current_server = None
+# ✅ Danh sách các gRPC servers
+GRPC_SERVERS = ["127.0.0.1:50051", "127.0.0.1:50052", "127.0.0.1:50053"]
+ACTIVE_SERVERS = []  # Danh sách server đang hoạt động
 
-def change_server():
-    """Chọn server mới từ danh sách còn lại."""
-    global current_server
-    available_servers = [server for server in SERVER_LIST if server != current_server]
-    if not available_servers:
-        raise Exception("Không có server nào khả dụng.")
-    current_server = random.choice(available_servers)
-    print(f"Chuyển sang server mới: {current_server}")
-    return current_server
+def check_server(server):
+    """Kiểm tra xem server có đang hoạt động không bằng heartbeat (ping)."""
+    try:
+        channel = grpc.insecure_channel(server)
+        grpc.channel_ready_future(channel).result(timeout=1)  # Kiểm tra trong 1 giây
+        return True
+    except grpc.FutureTimeoutError:
+        return False
 
-def connect_with_fallback(func):
-    """Kết nối gRPC với xử lý fallback khi server gặp lỗi."""
-    def wrapper(*args, **kwargs):
-        global current_server
-        attempts = 0
+def update_active_servers():
+    """Cập nhật danh sách server đang hoạt động mỗi 10 giây."""
+    global ACTIVE_SERVERS
+    while True:
+        active_list = [s for s in GRPC_SERVERS if check_server(s)]
+        ACTIVE_SERVERS = active_list
+        print(f"🔄 Cập nhật server hoạt động: {ACTIVE_SERVERS}")
+        time.sleep(10)  # Cập nhật mỗi 10 giây
 
-        while attempts < len(SERVER_LIST):
-            if current_server is None:
-                current_server = change_server()
+# ✅ Chạy heartbeat trong background
+heartbeat_thread = threading.Thread(target=update_active_servers, daemon=True)
+heartbeat_thread.start()
 
-            try:
-                print(f"Đang kết nối đến server: {current_server}")
-                with grpc.insecure_channel(current_server) as channel:
-                    stub = greeter_pb2_grpc.GreeterStub(channel)
-                    return func(stub, *args, **kwargs)
+def get_stub():
+    """Chọn một server đang hoạt động và tạo stub gRPC"""
+    if not ACTIVE_SERVERS:
+        raise Exception("❌ Không có server nào khả dụng!")
 
-            except grpc.RpcError as e:
-                print(f"Lỗi gRPC trên server {current_server}: {e.details()}")
-                current_server = None  # Hủy server hiện tại
-                attempts += 1  # Tăng số lần thử
+    server = random.choice(ACTIVE_SERVERS)  # Chọn server ngẫu nhiên
+    print(f"✅ Kết nối đến: {server}")
+    channel = grpc.insecure_channel(server)
+    return greeter_pb2_grpc.GreeterStub(channel)
 
-        return "Không thể kết nối với bất kỳ server nào"
-    return wrapper
+def login(username, password):
+    """Gửi request login đến gRPC server đã chọn."""
+    try:
+        stub = get_stub()
+        response = stub.Authenticate(greeter_pb2.UserRequest(username=username, password=password))
+        return "Success" if response.success else f"Failed: {response.message}"
+    except grpc.RpcError as e:
+        return f"gRPC Error: {e.code()} - {e.details()}"
 
-@connect_with_fallback
-def login(stub, username, password):
-    response = stub.Authenticate(greeter_pb2.UserRequest(username=username, password=password))
-    if response.success:
-        return "Success"
-    return f"Failed: Lỗi khi đăng nhập"
+def register(username, password):
+    """Gửi request register đến gRPC server đã chọn."""
+    try:
+        stub = get_stub()
+        response = stub.Register(greeter_pb2.UserRequest(username=username, password=password))
+        return "Success" if response.success else f"Failed: {response.message}"
+    except grpc.RpcError as e:
+        return f"gRPC Error: {e.code()} - {e.details()}"
 
-@connect_with_fallback
-def register(stub, username, password):
-    response = stub.Register(greeter_pb2.UserRequest(username=username, password=password))
-    if response.success:
-        return "Success"
-    return f"Failed: Lỗi khi đăng ký {response.status}"
-
-@connect_with_fallback
-def delete(stub, username):
-    response = stub.DeleteUser(greeter_pb2.UserRequest(username=username))
-    if response.success:
-        return "Success"
-    return f"Failed: Lỗi khi xóa {response.status}"
+def delete(username):
+    """Gửi request xóa user đến gRPC server đã chọn."""
+    try:
+        stub = get_stub()
+        response = stub.DeleteUser(greeter_pb2.UserRequest(username=username))
+        return "Success" if response.success else f"Failed: {response.message}"
+    except grpc.RpcError as e:
+        return f"gRPC Error: {e.code()} - {e.details()}"
